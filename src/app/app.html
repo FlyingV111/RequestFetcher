@@ -8,11 +8,11 @@
       <article hlmCard class="info-card">
         <div class="flex gap-4 items-center">
           @if (info.icon) {
-            <lucide-icon [ngClass]="info.colorIcon" [name]="info.icon" size="20"></lucide-icon>
+            <lucide-icon [ngClass]="info.colorIcon" [ngStyle]="info.style" [name]="info.icon" size="20"></lucide-icon>
           }
-          <h3 [ngClass]="info.color">{{ info.title }}</h3>
+          <h3 [ngClass]="info.color" [ngStyle]="info.style">{{ info.title }}</h3>
         </div>
-        <p [ngClass]="info.color" class="font-semibold">{{ info.value }}</p>
+        <p [ngClass]="info.color" [ngStyle]="info.style" class="font-semibold">{{ info.value }}</p>
       </article>
     }
   </div>

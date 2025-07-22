@@ -40,11 +40,28 @@ export class BenchmarkService {
     this.durationsSignal.set([]);
     this.logSignal.set([]);
 
+    const code = config.customCode?.trim();
+    const customFn = code
+      ? new Function(
+          'http',
+          'config',
+          'index',
+          `return (async () => { ${code} })();`
+        )
+      : null;
+
     if (config.warmupRequest) {
       try {
-        await firstValueFrom(
-          this.http.get(config.targetUrl, { responseType: 'text', observe: 'response' })
-        );
+        if (customFn) {
+          await Promise.resolve(customFn(this.http, config, -1));
+        } else {
+          await firstValueFrom(
+            this.http.request(config.method, config.targetUrl, {
+              responseType: 'text',
+              observe: 'response'
+            })
+          );
+        }
         this.appendLog('> Warmup erfolgreich');
       } catch (err: any) {
         const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
@@ -55,9 +72,16 @@ export class BenchmarkService {
     const executeRequest = async (index: number) => {
       const start = performance.now();
       try {
-        await firstValueFrom(
-          this.http.get(config.targetUrl, { responseType: 'text', observe: 'response' })
-        );
+        if (customFn) {
+          await Promise.resolve(customFn(this.http, config, index));
+        } else {
+          await firstValueFrom(
+            this.http.request(config.method, config.targetUrl, {
+              responseType: 'text',
+              observe: 'response'
+            })
+          );
+        }
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
         this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
@@ -68,20 +92,10 @@ export class BenchmarkService {
       }
     };
 
-    if (config.asyncMode) {
-      await Promise.all(
-        Array.from({ length: config.requests }).map((_, i) =>
-          new Promise<void>(resolve =>
-            setTimeout(() => executeRequest(i).then(resolve), i * config.interval * 1000)
-          )
-        )
-      );
-    } else {
-      for (let i = 0; i < config.requests; i++) {
-        await executeRequest(i);
-        if (i < config.requests - 1) {
-          await new Promise(res => setTimeout(res, config.interval * 1000));
-        }
+    for (let i = 0; i < config.requests; i++) {
+      await executeRequest(i);
+      if (i < config.requests - 1) {
+        await new Promise(res => setTimeout(res, config.interval * 1000));
       }
     }
 
