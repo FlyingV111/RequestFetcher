@@ -58,10 +58,14 @@ export class App {
     ];
   });
 
-  private successStyle(rate: number): string {
+  private successStyle(rate: number): Record<string, string> {
     const clamped = Math.max(0, Math.min(100, rate));
-    const r = Math.round(255 - (clamped * 2.55));
+    const r = Math.round(255 - clamped * 2.55);
     const g = Math.round(clamped * 2.55);
-    return `color: rgb(${r}, ${g}, 0); border-color: rgb(${r}, ${g}, 0)`;
+    const color = `rgb(${r}, ${g}, 0)`;
+    return {
+      color,
+      'border-color': color
+    };
   }
 }

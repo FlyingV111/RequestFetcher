@@ -41,7 +41,14 @@ export class BenchmarkService {
     this.logSignal.set([]);
 
     const code = config.customCode?.trim();
-    const customFn = code ? new Function('http', 'config', 'index', code) : null;
+    const customFn = code
+      ? new Function(
+          'http',
+          'config',
+          'index',
+          `return (async () => { ${code} })();`
+        )
+      : null;
 
     if (config.warmupRequest) {
       try {
