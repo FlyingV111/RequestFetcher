@@ -5,12 +5,12 @@ import {LiveLogs} from './features/live-logs/live-logs';
 import {History} from './features/history/history';
 import {HlmCardDirective} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
-import {NgClass} from '@angular/common';
-import { BenchmarkService } from './core/services/benchmark.service';
+import {NgClass, NgStyle} from '@angular/common';
+import {BenchmarkService} from './core/services/benchmark.service';
 
 @Component({
   selector: 'app-root',
-  imports: [Configuration, ResponseChart, LiveLogs, History, HlmCardDirective, LucideAngularModule, NgClass],
+  imports: [Configuration, ResponseChart, LiveLogs, History, HlmCardDirective, LucideAngularModule, NgClass, NgStyle],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -59,13 +59,7 @@ export class App {
   });
 
   private successStyle(rate: number): Record<string, string> {
-    const clamped = Math.max(0, Math.min(100, rate));
-    const r = Math.round(255 - clamped * 2.55);
-    const g = Math.round(clamped * 2.55);
-    const color = `rgb(${r}, ${g}, 0)`;
-    return {
-      color,
-      'border-color': color
-    };
+    const color = rate < 50 ? 'red' : rate < 75 ? 'orange' : '#0fc400';
+    return {color, 'border-color': color};
   }
 }
