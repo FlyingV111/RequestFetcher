@@ -15,6 +15,9 @@ export class BenchmarkService {
     private readonly durationsSignal = signal<number[]>([]);
     private readonly runningSignal = signal(false);
     private readonly logSignal = signal<string[]>([]);
+    private readonly currentRunSignal = signal<string | null>(null);
+    readonly currentRun = this.currentRunSignal.asReadonly();
+    private stopRequested = false;
 
     readonly durations = this.durationsSignal.asReadonly();
     readonly isRunning = this.runningSignal.asReadonly();
@@ -33,12 +36,41 @@ export class BenchmarkService {
         return {avg, min, max, successRate};
     });
 
-    async startBenchmark(config: RequestConfiguration): Promise<void> {
-        if (this.runningSignal()) return;
+    stopBenchmark(): void {
+        if (!this.runningSignal()) return;
+        this.stopRequested = true;
+    }
+
+    continueBenchmark(timestamp: string): string | void {
+        const run = this.historyService.getRun(timestamp);
+        if (!run) return;
+        this.durationsSignal.set(run.results);
+        this.logSignal.set(
+            run.results.map((r, i) =>
+                r === -1
+                    ? `> Request ${i + 1} fehlgeschlagen`
+                    : `> Request ${i + 1} erfolgreich in ${r}ms`
+            )
+        );
+        return this.startBenchmark(run.config, timestamp, run.results.length);
+    }
+
+    startBenchmark(config: RequestConfiguration, timestamp?: string, startIndex = 0): string | void {
+        if (this.runningSignal()) return this.currentRunSignal();
         this.configService.setConfiguration(config);
         this.runningSignal.set(true);
-        this.durationsSignal.set([]);
-        this.logSignal.set([]);
+        this.stopRequested = false;
+
+        if (startIndex === 0) {
+            this.durationsSignal.set([]);
+            this.logSignal.set([]);
+        }
+
+        const ts = timestamp ?? new Date().toISOString();
+        this.currentRunSignal.set(ts);
+        if (startIndex === 0) {
+            this.historyService.addRun({ config, results: [], timestamp: ts });
+        }
 
         const code = config.customCode?.trim();
         const customFn = code
@@ -93,18 +125,26 @@ export class BenchmarkService {
             }
         };
 
-        for (let i = 0; i < config.requests; i++) {
-            await executeRequest(i);
-            if (i < config.requests - 1) {
-                await new Promise(res => setTimeout(res, config.interval * 1000));
+        const runAsync = async () => {
+            for (let i = startIndex; i < config.requests; i++) {
+                if (this.stopRequested) break;
+                await executeRequest(i);
+                this.historyService.updateRun({ config, results: this.durationsSignal(), timestamp: ts });
+                if (this.stopRequested) break;
+                if (i < config.requests - 1) {
+                    await new Promise(res => setTimeout(res, config.interval * 1000));
+                }
             }
-        }
 
-        this.runningSignal.set(false);
-        this.appendLog('=============================================');
-        this.appendLog('> Benchmark abgeschlossen');
-        this.appendLog("> Starting with Requests...")
-        this.recordRun(config);
+            this.runningSignal.set(false);
+            this.appendLog('=============================================');
+            this.appendLog('> Benchmark abgeschlossen');
+            this.historyService.updateRun({ config, results: this.durationsSignal(), timestamp: ts });
+            this.currentRunSignal.set(null);
+        };
+
+        runAsync();
+        return ts;
     }
 
     private updateDuration(index: number, value: number): void {
@@ -115,15 +155,6 @@ export class BenchmarkService {
 
     private appendLog(entry: string): void {
         this.logSignal.update(log => [...log, entry]);
-    }
-
-    private recordRun(config: RequestConfiguration): void {
-        const run: BenchmarkRun = {
-            config,
-            results: this.durationsSignal(),
-            timestamp: new Date().toISOString()
-        };
-        this.historyService.addRun(run);
     }
 
     loadRun(run: BenchmarkRun): void {

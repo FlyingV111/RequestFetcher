@@ -42,4 +42,8 @@ export class History {
     if (!success.length) return 0;
     return Math.round(success.reduce((a, b) => a + b, 0) / success.length);
   }
+
+  hasErrors(run: BenchmarkRun): boolean {
+    return run.results.some(r => r === -1);
+  }
 }
