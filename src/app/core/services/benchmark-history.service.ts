@@ -26,6 +26,15 @@ export class BenchmarkHistoryService {
     this.persist();
   }
 
+  getRun(timestamp: string): BenchmarkRun | undefined {
+    return this.historySignal().find(r => r.timestamp === timestamp);
+  }
+
+  updateRun(updated: BenchmarkRun): void {
+    this.historySignal.update(h => h.map(r => r.timestamp === updated.timestamp ? updated : r));
+    this.persist();
+  }
+
   private persist(): void {
     localStorage.setItem('benchmarkHistory', JSON.stringify(this.historySignal()));
   }

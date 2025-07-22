@@ -88,16 +88,37 @@
       ></hlm-switch>
     </div>
 
-    <!-- Start Button -->
+    <!-- Control Buttons -->
     <button
       hlmBtn
       class="submit-button"
       variant="default"
       (click)="startBenchmark()"
-      [disabled]="(isRunning() || !isValidConfiguration())"
+      *ngIf="!isRunning() && !pendingRun"
+      [disabled]="!isValidConfiguration()"
     >
       <lucide-icon name="play" size="20"></lucide-icon>
       Start Requests
+    </button>
+    <button
+      hlmBtn
+      class="submit-button"
+      variant="outline"
+      (click)="stopBenchmark()"
+      *ngIf="isRunning()"
+    >
+      <lucide-icon name="stop" size="20"></lucide-icon>
+      Stop
+    </button>
+    <button
+      hlmBtn
+      class="submit-button"
+      variant="default"
+      (click)="continueBenchmark()"
+      *ngIf="!isRunning() && pendingRun"
+    >
+      <lucide-icon name="play" size="20"></lucide-icon>
+      Continue
     </button>
   </div>
 </section>

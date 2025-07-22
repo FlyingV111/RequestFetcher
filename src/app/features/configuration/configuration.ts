@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, effect} from '@angular/core';
 import {HlmLabelDirective} from '@spartan-ng/helm/label';
 import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmInputDirective} from '@spartan-ng/helm/input';
@@ -8,6 +8,7 @@ import {HlmCardImports} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
 import { BenchmarkService } from '../../core/services/benchmark.service';
 import { ConfigService } from '../../core/services/config.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'configuration',
@@ -27,6 +28,8 @@ import { ConfigService } from '../../core/services/config.service';
 export class Configuration {
   private readonly benchmark = inject(BenchmarkService);
   private readonly config = inject(ConfigService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   targetUrl = this.config.targetUrl;
   method = this.config.method;
@@ -38,6 +41,18 @@ export class Configuration {
   showCustom = false;
 
   readonly isRunning = this.benchmark.isRunning;
+  readonly currentRun = this.benchmark.currentRun;
+  get pendingRun(): string | null {
+    return this.route.snapshot.queryParamMap.get('run');
+  }
+
+  constructor() {
+    effect(() => {
+      if (!this.isRunning() && !this.currentRun()) {
+        this.router.navigate([], { queryParams: { run: null }, queryParamsHandling: 'merge' });
+      }
+    });
+  }
 
   isValidConfiguration(): boolean {
     const url = this.targetUrl();
@@ -56,7 +71,21 @@ export class Configuration {
 
   startBenchmark(): void {
     if (!this.isValidConfiguration()) return;
-    this.benchmark.startBenchmark(this.config.getConfiguration());
+    const ts = this.benchmark.startBenchmark(this.config.getConfiguration());
+    if (ts) {
+      this.router.navigate([], { queryParams: { run: ts }, queryParamsHandling: 'merge' });
+    }
+  }
+
+  stopBenchmark(): void {
+    this.benchmark.stopBenchmark();
+  }
+
+  continueBenchmark(): void {
+    const ts = this.pendingRun;
+    if (ts) {
+      this.benchmark.continueBenchmark(ts);
+    }
   }
 
   toggleCustom(): void {
