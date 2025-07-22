@@ -55,8 +55,8 @@ export class BenchmarkService {
         return this.startBenchmark(run.config, timestamp, run.results.length);
     }
 
-    startBenchmark(config: RequestConfiguration, timestamp?: string, startIndex = 0): string | void {
-        if (this.runningSignal()) return this.currentRunSignal();
+    startBenchmark(config: RequestConfiguration, timestamp?: string, startIndex = 0): string {
+        if (this.runningSignal()) return this.currentRunSignal()!;
         this.configService.setConfiguration(config);
         this.runningSignal.set(true);
         this.stopRequested = false;
