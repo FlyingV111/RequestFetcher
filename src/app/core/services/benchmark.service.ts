@@ -40,7 +40,7 @@ export class BenchmarkService {
 
     if (config.warmupRequest) {
       try {
-        await firstValueFrom(this.http.get(config.targetUrl));
+        await firstValueFrom(this.http.get(config.targetUrl, { responseType: 'text' }));
         this.appendLog('> Warmup erfolgreich');
       } catch {
         this.appendLog('> Warmup fehlgeschlagen');
@@ -50,7 +50,7 @@ export class BenchmarkService {
     const executeRequest = async (index: number) => {
       const start = performance.now();
       try {
-        await firstValueFrom(this.http.get(config.targetUrl));
+        await firstValueFrom(this.http.get(config.targetUrl, { responseType: 'text' }));
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
         this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);

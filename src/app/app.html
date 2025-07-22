@@ -4,7 +4,7 @@
 </div>
 <div class="content">
   <div class="info-container">
-    @for (info of infos; track info.id) {
+    @for (info of infos(); track info.id) {
       <article hlmCard class="info-card">
         <div class="flex gap-4 items-center">
           @if (info.icon) {
