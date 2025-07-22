@@ -8,6 +8,7 @@ import { BenchmarkHistoryService } from './benchmark-history.service';
 @Injectable({ providedIn: 'root' })
 export class BenchmarkService {
   private readonly http = inject(HttpClient);
+  private readonly historyService = inject(BenchmarkHistoryService);
 
   private readonly durationsSignal = signal<number[]>([]);
   private readonly runningSignal = signal(false);
@@ -29,8 +30,6 @@ export class BenchmarkService {
     const successRate = (success.length / vals.length) * 100;
     return { avg, min, max, successRate };
   });
-
-  constructor(private readonly history: BenchmarkHistoryService) {}
 
   async startBenchmark(config: RequestConfiguration): Promise<void> {
     if (this.runningSignal()) return;
@@ -104,7 +103,7 @@ export class BenchmarkService {
       results: this.durationsSignal(),
       timestamp: new Date().toISOString()
     };
-    this.history.addRun(run);
+    this.historyService.addRun(run);
   }
 }
 

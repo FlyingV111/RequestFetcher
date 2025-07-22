@@ -3,7 +3,7 @@ import {HlmCardImports} from '@spartan-ng/helm/card';
 import {NgxEchartsDirective} from 'ngx-echarts';
 import {EChartsOption} from 'echarts';
 import {getCssVariableValue} from '../../shared/utils/css-vars.util';
-import { BenchmarkService } from '../../core/services/benchmark.service';
+import {BenchmarkService} from '../../core/services/benchmark.service';
 
 @Component({
   selector: 'response-chart',
@@ -20,13 +20,13 @@ export class ResponseChart {
   chartsOptions = computed(() => {
     const data = this.benchmark.durations().map((d, i) => {
       if (d === -1) {
-        return { value: [i + 1, 0], itemStyle: { color: '#ef4444' } };
+        return {value: [i + 1, 0], itemStyle: {color: '#ef4444'}};
       }
-      return { value: [i + 1, d] };
+      return {value: [i + 1, d]};
     });
     const options = this.baseOptions();
     if (Array.isArray(options.series)) {
-      (options.series[0] as any).data = data;
+      options.series[0].data = data;
     }
     return options;
   });
@@ -39,7 +39,6 @@ export class ResponseChart {
         axisLabel: {
           color: getCssVariableValue('--color-foreground'),
           fontSize: 12,
-          formatter: (value: number) => value.toFixed(0),
         },
         min: 1,
         splitLine: {
@@ -55,7 +54,6 @@ export class ResponseChart {
         axisLabel: {
           color: getCssVariableValue('--color-foreground'),
           fontSize: 12,
-          formatter: (value: number) => value.toPrecision(3),
         },
         splitLine: {
           lineStyle: {
