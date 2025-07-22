@@ -1,12 +1,13 @@
-import {Component, computed, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
 import {HlmBadgeImports} from '@spartan-ng/helm/badge';
 import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmInputDirective} from '@spartan-ng/helm/input';
-import { BenchmarkHistoryService } from '../../core/services/benchmark-history.service';
-import { BenchmarkRun } from '../../core/models/BenchmarkRun.model';
-import { BenchmarkService } from '../../core/services/benchmark.service';
+import {BenchmarkHistoryService} from '../../core/services/benchmark-history.service';
+import {BenchmarkRun} from '../../core/models/BenchmarkRun.model';
+import {BenchmarkService} from '../../core/services/benchmark.service';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'history',
@@ -15,7 +16,8 @@ import { BenchmarkService } from '../../core/services/benchmark.service';
     LucideAngularModule,
     HlmBadgeImports,
     HlmButtonDirective,
-    HlmInputDirective
+    HlmInputDirective,
+    NgClass
   ],
   templateUrl: './history.html',
   styleUrl: './history.css'
@@ -45,5 +47,9 @@ export class History {
 
   hasErrors(run: BenchmarkRun): boolean {
     return run.results.some(r => r === -1);
+  }
+
+  copyUrl(targetUrl: string) {
+
   }
 }

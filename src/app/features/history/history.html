@@ -11,7 +11,7 @@
   <div hlmCardContent class="history-content">
     <div class="history-list">
       @for (run of benchmarkResults(); track run.timestamp) {
-        <div hlmCard class="history-item" (click)="loadRun(run)">
+        <div hlmCard class="history-item" (click)="loadRun(run)" [ngClass]="hasErrors(run) ? 'error' : 'success'">
           <div class="request-header">
             <span hlmBadge>{{ run.config.requests }} reqs</span>
             <button hlmBtn variant="ghost" size="icon" (click)="deleteRun(run.timestamp); $event.stopPropagation()">
@@ -20,7 +20,7 @@
           </div>
           <div class="request-info">
             <input hlmInput type="text" placeholder="{{ run.config.targetUrl }}" readonly />
-            <lucide-icon [name]="hasErrors(run) ? 'x' : 'check'" [ngClass]="hasErrors(run) ? 'text-red-500' : 'text-green-500'" size="16"></lucide-icon>
+            <button hlmBtn variant="ghost" size="icon" (click)="copyUrl(run.config.targetUrl); $event.stopPropagation()"></button>
           </div>
           <span>Avg: {{ average(run) }}ms</span>
         </div>
