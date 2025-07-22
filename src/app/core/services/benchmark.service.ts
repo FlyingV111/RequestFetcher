@@ -40,14 +40,21 @@ export class BenchmarkService {
     this.durationsSignal.set([]);
     this.logSignal.set([]);
 
+    const code = config.customCode?.trim();
+    const customFn = code ? new Function('http', 'config', 'index', code) : null;
+
     if (config.warmupRequest) {
       try {
-        await firstValueFrom(
-          this.http.request(config.method, config.targetUrl, {
-            responseType: 'text',
-            observe: 'response'
-          })
-        );
+        if (customFn) {
+          await Promise.resolve(customFn(this.http, config, -1));
+        } else {
+          await firstValueFrom(
+            this.http.request(config.method, config.targetUrl, {
+              responseType: 'text',
+              observe: 'response'
+            })
+          );
+        }
         this.appendLog('> Warmup erfolgreich');
       } catch (err: any) {
         const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
@@ -58,12 +65,16 @@ export class BenchmarkService {
     const executeRequest = async (index: number) => {
       const start = performance.now();
       try {
-        await firstValueFrom(
-          this.http.request(config.method, config.targetUrl, {
-            responseType: 'text',
-            observe: 'response'
-          })
-        );
+        if (customFn) {
+          await Promise.resolve(customFn(this.http, config, index));
+        } else {
+          await firstValueFrom(
+            this.http.request(config.method, config.targetUrl, {
+              responseType: 'text',
+              observe: 'response'
+            })
+          );
+        }
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
         this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);

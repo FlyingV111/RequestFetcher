@@ -51,9 +51,17 @@ export class App {
         icon: 'check',
         title: 'Success',
         value: `${stats.successRate.toFixed(0)}%`,
-        colorIcon: 'text-green-500 border border-green-500',
-        color: 'text-green-500'
+        colorIcon: '',
+        color: '',
+        style: this.successStyle(stats.successRate)
       }
     ];
   });
+
+  private successStyle(rate: number): string {
+    const clamped = Math.max(0, Math.min(100, rate));
+    const r = Math.round(255 - (clamped * 2.55));
+    const g = Math.round(clamped * 2.55);
+    return `color: rgb(${r}, ${g}, 0); border-color: rgb(${r}, ${g}, 0)`;
+  }
 }

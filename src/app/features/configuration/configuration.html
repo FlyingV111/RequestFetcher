@@ -50,13 +50,26 @@
     <!-- HTTP Method -->
     <div class="form-field">
       <label hlmLabel for="method">HTTP Method</label>
-      <input
-        hlmInput
-        id="method"
-        type="text"
-        [(ngModel)]="method"
-        placeholder="GET"
-      />
+      <select hlmInput id="method" [(ngModel)]="method">
+        <option>GET</option>
+        <option>POST</option>
+        <option>PUT</option>
+        <option>PATCH</option>
+        <option>DELETE</option>
+        <option>HEAD</option>
+        <option>OPTIONS</option>
+      </select>
+    </div>
+
+    <!-- Custom JS Toggle -->
+    <div class="form-field">
+      <button hlmBtn variant="outline" (click)="toggleCustom()">Custom JS</button>
+    </div>
+
+    <!-- Custom JS Editor -->
+    <div class="form-field custom-editor" *ngIf="showCustom">
+      <label hlmLabel for="custom-code">Request Code</label>
+      <textarea id="custom-code" [(ngModel)]="customCode" placeholder="http.request(method, targetUrl).toPromise()"></textarea>
     </div>
 
     <!-- Warm-up Request Toggle -->

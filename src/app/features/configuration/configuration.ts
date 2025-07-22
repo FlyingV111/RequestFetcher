@@ -30,21 +30,25 @@ export class Configuration {
 
   targetUrl = this.config.targetUrl;
   method = this.config.method;
+  customCode = this.config.customCode;
   requests = this.config.requests;
   interval = this.config.interval;
   warmupRequest = this.config.warmupRequest;
+
+  showCustom = false;
 
   readonly isRunning = this.benchmark.isRunning;
 
   isValidConfiguration(): boolean {
     const url = this.targetUrl();
     const method = this.method().trim();
+    const code = this.customCode().trim();
     const reqs = this.requests();
     const int = this.interval();
 
     try {
       new URL(url);
-      return reqs > 0 && int > 0 && method.length > 0;
+      return reqs > 0 && int > 0 && (method.length > 0 || code.length > 0);
     } catch {
       return false;
     }
@@ -53,6 +57,10 @@ export class Configuration {
   startBenchmark(): void {
     if (!this.isValidConfiguration()) return;
     this.benchmark.startBenchmark(this.config.getConfiguration());
+  }
+
+  toggleCustom(): void {
+    this.showCustom = !this.showCustom;
   }
 }
 
