@@ -12,17 +12,22 @@
     <div class="history-list">
       @for (result of benchmarkResults(); track result.id) {
         <div hlmCard class="history-item">
+          <div class="request-header">
+            <button hlmBtn size="icon" variant="ghost">
+              <lucide-icon name="external-link" size="20"></lucide-icon>
+            </button>
+            <span hlmBadge>{{ result.requests }} reqs</span>
+          </div>
           <div class="request-info">
-            <span class="request-count">{{ result.requests }} reqs</span>
-            <span class="url">{{ result.url }}</span>
+            <input hlmInput type="text" placeholder="{{ result.url }}" readonly/>
+            <button hlmBtn size="icon" variant="outline">
+              <lucide-icon name="copy" size="20"></lucide-icon>
+            </button>
           </div>
-          <div class="time-info">
-
-            <span class="average-time">Avg: {{ result.averageTime }}ms</span>
-          </div>
+          <span>Avg: {{ result.averageTime }}ms</span>
         </div>
       } @empty {
-        <div class="empty-state">
+        <div class="empty-state text-muted-foreground">
           <p>No benchmark results yet</p>
           <small>Run your first benchmark to see results here</small>
         </div>

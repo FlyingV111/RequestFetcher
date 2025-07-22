@@ -20,6 +20,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.1.2",
     "@angular/cdk": "^20.1.2",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
@@ -32,8 +33,10 @@
     "@tailwindcss/postcss": "^4.1.11",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "echarts": "^5.6.0",
     "embla-carousel-angular": ">=19.0.0",
     "lucide-angular": "^0.525.0",
+    "ngx-echarts": "^20.0.1",
     "ngx-sonner": ">=3.0.0",
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",

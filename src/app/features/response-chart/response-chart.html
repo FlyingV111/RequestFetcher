@@ -1,1 +1,9 @@
-<p>response-chart works!</p>
+<section hlmCard class="response-chart">
+  <header hlmCardHeader>
+    <h1 class="text-2xl" hlmCardTitle>Response Time Analysis</h1>
+    <p hlmCardDescription>Showing of request</p>
+  </header>
+  <div class="chart-container">
+    <echarts [options]="chartsOptions()" class="chart"></echarts>
+  </div>
+</section>

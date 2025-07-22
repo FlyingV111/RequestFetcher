@@ -4,4 +4,7 @@ export interface BenchmarkResult {
   url: string;
   averageTime: number;
   timestamp: Date;
+  minTime: number;
+  maxTime: number;
+  log: string[];
 }

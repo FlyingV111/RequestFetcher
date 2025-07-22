@@ -3,6 +3,19 @@
   <history></history>
 </div>
 <div class="content">
+  <div class="info-container">
+    @for (info of infos; track info.id) {
+      <article hlmCard class="info-card">
+        <div class="flex gap-4 items-center">
+          @if (info.icon) {
+            <lucide-icon [ngClass]="info.colorIcon" [name]="info.icon" size="20"></lucide-icon>
+          }
+          <h3 [ngClass]="info.color">{{ info.title }}</h3>
+        </div>
+        <p [ngClass]="info.color" class="font-semibold">{{ info.value }}</p>
+      </article>
+    }
+  </div>
   <response-chart></response-chart>
 </div>
 <live-logs></live-logs>

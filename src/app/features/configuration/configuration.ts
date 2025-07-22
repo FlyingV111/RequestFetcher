@@ -23,6 +23,8 @@ import {LucideAngularModule} from 'lucide-angular';
   styleUrl: './configuration.css'
 })
 export class Configuration {
+
+
   targetUrl = signal<string>('');
   requests = signal(20);
   interval = signal(1);

@@ -132,51 +132,51 @@
       "RequestFetcher": [
         {
           "file": ".editorconfig",
-          "hash": "8037249353422744134"
+          "hash": "4165385352547808172"
         },
         {
           "file": ".gitignore",
-          "hash": "10175894702052279752"
+          "hash": "18168400278403753650"
         },
         {
           "file": ".postcssrc.json",
-          "hash": "17460548602263189673"
+          "hash": "1757434806578486340"
         },
         {
           "file": ".vscode/extensions.json",
-          "hash": "11934160580685414355"
+          "hash": "5331566439708925252"
         },
         {
           "file": ".vscode/launch.json",
-          "hash": "17406702432687230417"
+          "hash": "17038929134016848735"
         },
         {
           "file": ".vscode/tasks.json",
-          "hash": "10093397977228577162"
+          "hash": "5336636969995539451"
         },
         {
           "file": "README.md",
-          "hash": "12509084250336144173"
+          "hash": "12565824139815202460"
         },
         {
           "file": "RequestFetcher.iml",
-          "hash": "2637053897516342285"
+          "hash": "11801810406149051505"
         },
         {
           "file": "angular.json",
-          "hash": "12599176975556197921"
+          "hash": "15022875222389036078"
         },
         {
           "file": "components.json",
-          "hash": "1595308069860517580"
+          "hash": "3452419036745582917"
         },
         {
           "file": "package-lock.json",
-          "hash": "15687696421533490035"
+          "hash": "345314811492952401"
         },
         {
           "file": "package.json",
-          "hash": "5137729022497651994",
+          "hash": "17059117700886136497",
           "deps": [
             "npm:@angular/build",
             "npm:@angular/cli",
@@ -193,6 +193,7 @@
             "npm:tailwind-merge",
             "npm:tailwindcss-animate",
             "npm:typescript",
+            "npm:@angular/animations",
             "npm:@angular/cdk",
             "npm:@angular/common",
             "npm:@angular/compiler",
@@ -205,7 +206,10 @@
             "npm:@tailwindcss/postcss",
             "npm:class-variance-authority",
             "npm:clsx",
+            "npm:echarts",
             "npm:embla-carousel-angular",
+            "npm:lucide-angular",
+            "npm:ngx-echarts",
             "npm:ngx-sonner",
             "npm:postcss",
             "npm:rxjs",
@@ -220,75 +224,75 @@
         },
         {
           "file": "src/app/app.config.ts",
-          "hash": "2830766725274472427"
+          "hash": "13133546157229929912"
         },
         {
           "file": "src/app/app.css",
-          "hash": "3244421341483603138"
+          "hash": "9774526296771711574"
         },
         {
           "file": "src/app/app.html",
-          "hash": "9109726986598435434"
+          "hash": "6398617771045190377"
         },
         {
           "file": "src/app/app.routes.ts",
-          "hash": "809736233805555256"
-        },
-        {
-          "file": "src/app/app.spec.ts",
-          "hash": "6534394943863337709"
+          "hash": "12397496131277534773"
         },
         {
           "file": "src/app/app.ts",
-          "hash": "11987805326001213791"
+          "hash": "4677778678238416057"
+        },
+        {
+          "file": "src/app/core/BenchmarkResult.model.ts",
+          "hash": "12306417835313320838"
         },
         {
           "file": "src/app/features/configuration/configuration.css",
-          "hash": "3244421341483603138"
+          "hash": "779101524489062518"
         },
         {
           "file": "src/app/features/configuration/configuration.html",
-          "hash": "3700994405526913919"
+          "hash": "6792309576928264798"
         },
         {
           "file": "src/app/features/configuration/configuration.ts",
-          "hash": "8270516653262306260"
+          "hash": "9629708182359935115"
         },
         {
           "file": "src/app/features/history/history.css",
-          "hash": "3244421341483603138"
+          "hash": "10013555405333324551"
         },
         {
           "file": "src/app/features/history/history.html",
-          "hash": "16794769349333783318"
+          "hash": "11248772010376225804"
         },
         {
           "file": "src/app/features/history/history.ts",
-          "hash": "9946634388471887011"
+          "hash": "9795525556167929820"
         },
         {
           "file": "src/app/features/live-logs/live-logs.css",
-          "hash": "3244421341483603138"
+          "hash": "17098558743366396893"
         },
         {
           "file": "src/app/features/live-logs/live-logs.html",
-          "hash": "9460408487949935239"
+          "hash": "12890182054981161185"
         },
         {
           "file": "src/app/features/live-logs/live-logs.ts",
-          "hash": "11713250103828792842"
+          "hash": "10705462668254919551"
         },
         {
           "file": "src/app/features/response-chart/response-chart.css",
-          "hash": "3244421341483603138"
+          "hash": "18162833495367004592"
         },
         {
           "file": "src/app/features/response-chart/response-chart.html",
-          "hash": "7289030139647519695"
+          "hash": "2123598578340590508"
         },
         {
           "file": "src/app/features/response-chart/response-chart.ts",
-          "hash": "18020136015082235001"
+          "hash": "9091247568131239344"
         },
         {
           "file": "src/app/shared/ui/ui-accordion-helm/src/index.ts",
@@ -1135,24 +1139,36 @@
           "hash": "6648055890224845283"
         },
         {
+          "file": "src/app/shared/utils/chart.utils.ts",
+          "hash": "12399221952041254088"
+        },
+        {
+          "file": "src/app/shared/utils/css-vars.util.ts",
+          "hash": "16912216364137968570"
+        },
+        {
+          "file": "src/app/shared/utils/time.utils.ts",
+          "hash": "1078572502194437104"
+        },
+        {
           "file": "src/index.html",
-          "hash": "741658637557620965"
+          "hash": "12130600919278883940"
         },
         {
           "file": "src/main.ts",
-          "hash": "10405740721546735325"
+          "hash": "15944248449879998907"
         },
         {
           "file": "src/styles.css",
-          "hash": "11117199581691693292"
+          "hash": "11612445896318227292"
         },
         {
           "file": "tailwind.config.js",
-          "hash": "9381719151128218693"
+          "hash": "5171252905679637488"
         },
         {
           "file": "tsconfig.app.json",
-          "hash": "10136459155298117738"
+          "hash": "8369321240499881643"
         },
         {
           "file": "tsconfig.json",
@@ -1160,7 +1176,7 @@
         },
         {
           "file": "tsconfig.spec.json",
-          "hash": "15504553596141903120"
+          "hash": "647795770471502525"
         }
       ]
     },

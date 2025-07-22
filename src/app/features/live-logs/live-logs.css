@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  height: 100%;
+}
+
+.live-logs {
+  padding: 0;
+  display: flex;
+  gap: 0;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--color-gray-50);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow: hidden;
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem .5rem;
+  background-color: var(--color-gray-100);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.log-window {
+  padding: 1.5rem;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-800);
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
