@@ -43,7 +43,10 @@ export class BenchmarkService {
     if (config.warmupRequest) {
       try {
         await firstValueFrom(
-          this.http.get(config.targetUrl, { responseType: 'text', observe: 'response' })
+          this.http.request(config.method, config.targetUrl, {
+            responseType: 'text',
+            observe: 'response'
+          })
         );
         this.appendLog('> Warmup erfolgreich');
       } catch (err: any) {
@@ -56,7 +59,10 @@ export class BenchmarkService {
       const start = performance.now();
       try {
         await firstValueFrom(
-          this.http.get(config.targetUrl, { responseType: 'text', observe: 'response' })
+          this.http.request(config.method, config.targetUrl, {
+            responseType: 'text',
+            observe: 'response'
+          })
         );
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
@@ -68,20 +74,10 @@ export class BenchmarkService {
       }
     };
 
-    if (config.asyncMode) {
-      await Promise.all(
-        Array.from({ length: config.requests }).map((_, i) =>
-          new Promise<void>(resolve =>
-            setTimeout(() => executeRequest(i).then(resolve), i * config.interval * 1000)
-          )
-        )
-      );
-    } else {
-      for (let i = 0; i < config.requests; i++) {
-        await executeRequest(i);
-        if (i < config.requests - 1) {
-          await new Promise(res => setTimeout(res, config.interval * 1000));
-        }
+    for (let i = 0; i < config.requests; i++) {
+      await executeRequest(i);
+      if (i < config.requests - 1) {
+        await new Promise(res => setTimeout(res, config.interval * 1000));
       }
     }
 

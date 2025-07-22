@@ -1,7 +1,7 @@
 export interface RequestConfiguration {
   targetUrl: string;
+  method: string;
   requests: number;
   interval: number;
-  asyncMode: boolean;
   warmupRequest: boolean;
 }

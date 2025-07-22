@@ -29,21 +29,22 @@ export class Configuration {
   private readonly config = inject(ConfigService);
 
   targetUrl = this.config.targetUrl;
+  method = this.config.method;
   requests = this.config.requests;
   interval = this.config.interval;
-  asyncMode = this.config.asyncMode;
   warmupRequest = this.config.warmupRequest;
 
   readonly isRunning = this.benchmark.isRunning;
 
   isValidConfiguration(): boolean {
     const url = this.targetUrl();
+    const method = this.method().trim();
     const reqs = this.requests();
     const int = this.interval();
 
     try {
       new URL(url);
-      return reqs > 0 && int > 0;
+      return reqs > 0 && int > 0 && method.length > 0;
     } catch {
       return false;
     }

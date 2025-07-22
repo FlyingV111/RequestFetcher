@@ -47,13 +47,16 @@
       </div>
     </div>
 
-    <!-- Async Mode Toggle -->
-    <div class="toggle-field">
-      <label hlmLabel for="async-mode">Async Mode</label>
-      <hlm-switch
-        id="async-mode"
-        [(ngModel)]="asyncMode"
-      ></hlm-switch>
+    <!-- HTTP Method -->
+    <div class="form-field">
+      <label hlmLabel for="method">HTTP Method</label>
+      <input
+        hlmInput
+        id="method"
+        type="text"
+        [(ngModel)]="method"
+        placeholder="GET"
+      />
     </div>
 
     <!-- Warm-up Request Toggle -->
