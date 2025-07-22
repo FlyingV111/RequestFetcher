@@ -21,7 +21,9 @@
           </div>
           <div class="request-info">
             <input hlmInput type="text" placeholder="{{ run.config.targetUrl }}" readonly />
-            <button hlmBtn variant="ghost" size="icon" (click)="copyUrl(run.config.targetUrl); $event.stopPropagation()"></button>
+            <button hlmBtn variant="secondary" size="icon" (click)="copyUrl(run.config.targetUrl); $event.stopPropagation()">
+              <lucide-icon name="copy" size="16"></lucide-icon>
+            </button>
           </div>
           <span>Avg: {{ average(run) }}ms</span>
         </div>

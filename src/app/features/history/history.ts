@@ -50,6 +50,8 @@ export class History {
   }
 
   copyUrl(targetUrl: string) {
-
+    navigator.clipboard.writeText(targetUrl)
+      .then(() => console.log('URL kopiert:', targetUrl))
+      .catch(err => console.error('Kopieren fehlgeschlagen:', err));
   }
 }
