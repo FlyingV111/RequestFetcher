@@ -1,0 +1,58 @@
+.benchmark-config {
+  width: 100%;
+  max-width: 24rem;
+  margin: 0 auto;
+
+  .title {
+    font-weight: 600;
+    align-items: center;
+    display: flex;
+    gap: .5rem;
+  }
+}
+
+.config-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  input {
+    width: 100%;
+  }
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.toggle-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
+
+.submit-button {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  width: 100%;
+}

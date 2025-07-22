@@ -1,0 +1,18 @@
+:host {
+  height: 100%;
+}
+
+.test-history {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.test-history header {
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+}

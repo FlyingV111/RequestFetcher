@@ -1,0 +1,80 @@
+<section hlmCard class="benchmark-config">
+  <header hlmCardHeader>
+    <h2 hlmCardTitle class="title">
+      <lucide-icon name="settings" size="20"></lucide-icon>
+      Configuration
+    </h2>
+    <p hlmCardDescription>
+      Set up your benchmark parameters
+    </p>
+  </header>
+  <div hlmCardContent class="config-content">
+    <!-- Target URL -->
+    <div class="form-field">
+      <label hlmLabel for="target-url">Target URL</label>
+      <input
+        hlmInput
+        id="target-url"
+        type="url"
+        [(ngModel)]="targetUrl"
+        placeholder="https://example.com"
+      />
+    </div>
+
+    <!-- Requests and Interval -->
+    <div class="form-grid">
+      <div class="form-field">
+        <label hlmLabel for="requests">Requests</label>
+        <input
+          hlmInput
+          id="requests"
+          type="number"
+          [(ngModel)]="requests"
+          min="1"
+        />
+      </div>
+
+      <div class="form-field">
+        <label hlmLabel for="interval">Interval (s)</label>
+        <input
+          hlmInput
+          id="interval"
+          type="number"
+          [(ngModel)]="interval"
+          min="0.1"
+          step="0.1"
+        />
+      </div>
+    </div>
+
+    <!-- Async Mode Toggle -->
+    <div class="toggle-field">
+      <label hlmLabel for="async-mode">Async Mode</label>
+      <hlm-switch
+        id="async-mode"
+        [(ngModel)]="asyncMode"
+      ></hlm-switch>
+    </div>
+
+    <!-- Warm-up Request Toggle -->
+    <div class="toggle-field">
+      <label hlmLabel for="warmup-request">Warm-up Request</label>
+      <hlm-switch
+        id="warmup-request"
+        [(ngModel)]="warmupRequest"
+      ></hlm-switch>
+    </div>
+
+    <!-- Start Button -->
+    <button
+      hlmBtn
+      class="submit-button"
+      variant="default"
+      (click)="startBenchmark()"
+      [disabled]="!isValidConfiguration()"
+    >
+      <lucide-icon name="play" size="20"></lucide-icon>
+      Start Requests
+    </button>
+  </div>
+</section>

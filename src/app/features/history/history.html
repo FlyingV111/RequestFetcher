@@ -1,0 +1,32 @@
+<section hlmCard class="test-history">
+  <header hlmCardHeader>
+    <div class="header-content">
+      <lucide-icon name="history" size="20"></lucide-icon>
+      <h2 hlmCardTitle>Test History</h2>
+    </div>
+    <p hlmCardDescription>
+      Previous benchmark runs
+    </p>
+  </header>
+  <div hlmCardContent class="history-content">
+    <div class="history-list">
+      @for (result of benchmarkResults(); track result.id) {
+        <div hlmCard class="history-item">
+          <div class="request-info">
+            <span class="request-count">{{ result.requests }} reqs</span>
+            <span class="url">{{ result.url }}</span>
+          </div>
+          <div class="time-info">
+
+            <span class="average-time">Avg: {{ result.averageTime }}ms</span>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>No benchmark results yet</p>
+          <small>Run your first benchmark to see results here</small>
+        </div>
+      }
+    </div>
+  </div>
+</section>
