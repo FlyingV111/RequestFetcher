@@ -25,7 +25,9 @@ export class ResponseChart {
       return { value: [i + 1, d] };
     });
     const options = this.baseOptions();
-    (options.series![0] as any).data = data;
+    if (Array.isArray(options.series)) {
+      (options.series[0] as any).data = data;
+    }
     return options;
   });
 
