@@ -1,8 +1,9 @@
-import {Component, signal} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {NgxEchartsDirective} from 'ngx-echarts';
 import {EChartsOption} from 'echarts';
 import {getCssVariableValue} from '../../shared/utils/css-vars.util';
+import { BenchmarkService } from '../../core/services/benchmark.service';
 
 @Component({
   selector: 'response-chart',
@@ -14,9 +15,21 @@ import {getCssVariableValue} from '../../shared/utils/css-vars.util';
   styleUrl: './response-chart.css'
 })
 export class ResponseChart {
-  protected readonly chartsOptions = signal(this.initOptions());
+  private readonly benchmark = inject(BenchmarkService);
+  hasData = computed(() => this.benchmark.durations().length > 0);
+  chartsOptions = computed(() => {
+    const data = this.benchmark.durations().map((d, i) => {
+      if (d === -1) {
+        return { value: [i + 1, 0], itemStyle: { color: '#ef4444' } };
+      }
+      return { value: [i + 1, d] };
+    });
+    const options = this.baseOptions();
+    (options.series![0] as any).data = data;
+    return options;
+  });
 
-  initOptions(): EChartsOption {
+  private baseOptions(): EChartsOption {
     return {
       xAxis: {
         type: 'value',
@@ -85,7 +98,7 @@ export class ResponseChart {
           name: 'Response Time',
           type: 'line',
           smooth: true,
-          data: [[1, 100], [2, 300], [3, 700], [4, 200], [5, 500]],
+          data: [],
           symbol: 'circle',
           symbolSize: 6,
           lineStyle: {
@@ -97,3 +110,4 @@ export class ResponseChart {
     };
   }
 }
+

@@ -71,10 +71,11 @@
       class="submit-button"
       variant="default"
       (click)="startBenchmark()"
-      [disabled]="!isValidConfiguration()"
+      [disabled]="(isRunning() || !isValidConfiguration())"
     >
       <lucide-icon name="play" size="20"></lucide-icon>
       Start Requests
     </button>
   </div>
 </section>
+

@@ -1,10 +1,11 @@
-import {Component, signal} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {HlmCardImports} from '@spartan-ng/helm/card';
-import {BenchmarkResult} from '../../core/models/BenchmarkResult.model';
 import {LucideAngularModule} from 'lucide-angular';
 import {HlmBadgeImports} from '@spartan-ng/helm/badge';
 import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmInputDirective} from '@spartan-ng/helm/input';
+import { BenchmarkHistoryService } from '../../core/services/benchmark-history.service';
+import { BenchmarkRun } from '../../core/models/BenchmarkRun.model';
 
 @Component({
   selector: 'history',
@@ -19,19 +20,16 @@ import {HlmInputDirective} from '@spartan-ng/helm/input';
   styleUrl: './history.css'
 })
 export class History {
-  benchmarkResults = signal<BenchmarkResult[]>([]);
-
-  addBenchmarkResult(result: Omit<BenchmarkResult, 'id' | 'timestamp'>): void {
-    const newResult: BenchmarkResult = {
-      ...result,
-      id: crypto.randomUUID(),
-      timestamp: new Date()
-    };
-
-    this.benchmarkResults.update(results => [newResult, ...results]);
-  }
+  private readonly historyService = inject(BenchmarkHistoryService);
+  benchmarkResults = this.historyService.history;
 
   clearHistory(): void {
-    this.benchmarkResults.set([]);
+    this.historyService.clear();
+  }
+
+  average(run: BenchmarkRun): number {
+    const success = run.results.filter(r => r !== -1);
+    if (!success.length) return 0;
+    return Math.round(success.reduce((a, b) => a + b, 0) / success.length);
   }
 }

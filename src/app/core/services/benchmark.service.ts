@@ -1,8 +1,9 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { RequestConfiguration } from '../models/RequestConfiguration.model';
 import { BenchmarkRun } from '../models/BenchmarkRun.model';
+import { BenchmarkHistoryService } from './benchmark-history.service';
 
 @Injectable({ providedIn: 'root' })
 export class BenchmarkService {
@@ -11,12 +12,10 @@ export class BenchmarkService {
   private readonly durationsSignal = signal<number[]>([]);
   private readonly runningSignal = signal(false);
   private readonly logSignal = signal<string[]>([]);
-  private readonly historySignal = signal<BenchmarkRun[]>([]);
 
   readonly durations = this.durationsSignal.asReadonly();
   readonly isRunning = this.runningSignal.asReadonly();
   readonly systemLog = this.logSignal.asReadonly();
-  readonly history = this.historySignal.asReadonly();
 
   readonly stats = computed(() => {
     const vals = this.durationsSignal();
@@ -31,9 +30,7 @@ export class BenchmarkService {
     return { avg, min, max, successRate };
   });
 
-  constructor() {
-    this.loadHistory();
-  }
+  constructor(private readonly history: BenchmarkHistoryService) {}
 
   async startBenchmark(config: RequestConfiguration): Promise<void> {
     if (this.runningSignal()) return;
@@ -81,7 +78,7 @@ export class BenchmarkService {
     }
 
     this.runningSignal.set(false);
-    this.saveRun(config);
+    this.recordRun(config);
   }
 
   private updateDuration(index: number, value: number): void {
@@ -94,24 +91,13 @@ export class BenchmarkService {
     this.logSignal.update(log => [...log, entry]);
   }
 
-  private saveRun(config: RequestConfiguration): void {
+  private recordRun(config: RequestConfiguration): void {
     const run: BenchmarkRun = {
       config,
       results: this.durationsSignal(),
       timestamp: new Date().toISOString()
     };
-    this.historySignal.update(h => [run, ...h]);
-    localStorage.setItem('benchmarkHistory', JSON.stringify(this.historySignal()));
-  }
-
-  private loadHistory(): void {
-    const raw = localStorage.getItem('benchmarkHistory');
-    if (raw) {
-      try {
-        this.historySignal.set(JSON.parse(raw) as BenchmarkRun[]);
-      } catch {
-        this.historySignal.set([]);
-      }
-    }
+    this.history.addRun(run);
   }
 }
+

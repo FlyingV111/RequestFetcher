@@ -10,21 +10,15 @@
   </header>
   <div hlmCardContent class="history-content">
     <div class="history-list">
-      @for (result of benchmarkResults(); track result.id) {
+      @for (run of benchmarkResults(); track run.timestamp) {
         <div hlmCard class="history-item">
           <div class="request-header">
-            <button hlmBtn size="icon" variant="ghost">
-              <lucide-icon name="external-link" size="20"></lucide-icon>
-            </button>
-            <span hlmBadge>{{ result.requests }} reqs</span>
+            <span hlmBadge>{{ run.config.requests }} reqs</span>
           </div>
           <div class="request-info">
-            <input hlmInput type="text" placeholder="{{ result.url }}" readonly/>
-            <button hlmBtn size="icon" variant="outline">
-              <lucide-icon name="copy" size="20"></lucide-icon>
-            </button>
+            <input hlmInput type="text" placeholder="{{ run.config.targetUrl }}" readonly />
           </div>
-          <span>Avg: {{ result.averageTime }}ms</span>
+          <span>Avg: {{ average(run) }}ms</span>
         </div>
       } @empty {
         <div class="empty-state text-muted-foreground">

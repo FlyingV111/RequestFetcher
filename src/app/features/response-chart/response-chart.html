@@ -4,6 +4,11 @@
     <p hlmCardDescription>Showing of request</p>
   </header>
   <div class="chart-container">
-    <echarts [options]="chartsOptions()" class="chart"></echarts>
+    @if (hasData()) {
+      <echarts [options]="chartsOptions()" class="chart"></echarts>
+    } @else {
+      <p class="text-muted-foreground">No data yet</p>
+    }
   </div>
 </section>
+

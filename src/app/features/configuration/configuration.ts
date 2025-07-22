@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, signal, inject} from '@angular/core';
 import {HlmLabelDirective} from '@spartan-ng/helm/label';
 import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmInputDirective} from '@spartan-ng/helm/input';
@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HlmSwitchImports} from '@spartan-ng/helm/switch';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
+import { BenchmarkService } from '../../core/services/benchmark.service';
 
 @Component({
   selector: 'configuration',
@@ -23,13 +24,15 @@ import {LucideAngularModule} from 'lucide-angular';
   styleUrl: './configuration.css'
 })
 export class Configuration {
-
+  private readonly benchmark = inject(BenchmarkService);
 
   targetUrl = signal<string>('');
   requests = signal(20);
   interval = signal(1);
   asyncMode = signal(false);
   warmupRequest = signal(true);
+
+  readonly isRunning = this.benchmark.isRunning;
 
   isValidConfiguration(): boolean {
     const url = this.targetUrl();
@@ -55,6 +58,7 @@ export class Configuration {
       warmupRequest: this.warmupRequest()
     };
 
-    console.log('Starting benchmark with config:', config);
+    this.benchmark.startBenchmark(config);
   }
 }
+
