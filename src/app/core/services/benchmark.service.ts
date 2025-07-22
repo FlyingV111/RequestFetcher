@@ -82,26 +82,6 @@ export class BenchmarkService {
             )
             : null;
 
-        if (config.warmupRequest) {
-            try {
-                if (customFn) {
-                    await Promise.resolve(customFn(this.http, config, -1));
-                } else {
-                    await firstValueFrom(
-                        this.http.request(config.method, config.targetUrl, {
-                            responseType: 'text',
-                            observe: 'response'
-                        })
-                    );
-                }
-                this.appendLog('> Warmup erfolgreich');
-            } catch (err: any) {
-                const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
-                this.appendLog(`> Warmup fehlgeschlagen (${message})`);
-            }
-            this.appendLog('=============================================');
-        }
-
         const executeRequest = async (index: number) => {
             const start = performance.now();
             try {
@@ -126,6 +106,26 @@ export class BenchmarkService {
         };
 
         const runAsync = async () => {
+            if (config.warmupRequest) {
+                try {
+                    if (customFn) {
+                        await Promise.resolve(customFn(this.http, config, -1));
+                    } else {
+                        await firstValueFrom(
+                            this.http.request(config.method, config.targetUrl, {
+                                responseType: 'text',
+                                observe: 'response'
+                            })
+                        );
+                    }
+                    this.appendLog('> Warmup erfolgreich');
+                } catch (err: any) {
+                    const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
+                    this.appendLog(`> Warmup fehlgeschlagen (${message})`);
+                }
+                this.appendLog('=============================================');
+            }
+
             for (let i = startIndex; i < config.requests; i++) {
                 if (this.stopRequested) break;
                 await executeRequest(i);
