@@ -40,23 +40,29 @@ export class BenchmarkService {
 
     if (config.warmupRequest) {
       try {
-        await firstValueFrom(this.http.get(config.targetUrl, { responseType: 'text' }));
+        await firstValueFrom(
+          this.http.get(config.targetUrl, { responseType: 'text', observe: 'response' })
+        );
         this.appendLog('> Warmup erfolgreich');
-      } catch {
-        this.appendLog('> Warmup fehlgeschlagen');
+      } catch (err: any) {
+        const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
+        this.appendLog(`> Warmup fehlgeschlagen (${message})`);
       }
     }
 
     const executeRequest = async (index: number) => {
       const start = performance.now();
       try {
-        await firstValueFrom(this.http.get(config.targetUrl, { responseType: 'text' }));
+        await firstValueFrom(
+          this.http.get(config.targetUrl, { responseType: 'text', observe: 'response' })
+        );
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
         this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
-      } catch {
+      } catch (err: any) {
         this.updateDuration(index, -1);
-        this.appendLog(`> Request ${index + 1} fehlgeschlagen`);
+        const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
+        this.appendLog(`> Request ${index + 1} fehlgeschlagen (${message})`);
       }
     };
 
@@ -78,6 +84,7 @@ export class BenchmarkService {
     }
 
     this.runningSignal.set(false);
+    this.appendLog('> Benchmark abgeschlossen');
     this.recordRun(config);
   }
 
