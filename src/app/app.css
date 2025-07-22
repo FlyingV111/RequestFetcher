@@ -10,7 +10,7 @@
 .content {
   width: 100%;
   display: grid;
-  grid-template-rows: auto 60% auto;
+  grid-template-rows: 5rem 60% auto;
   gap: 1rem;
   flex-direction: column;
   overflow: hidden;
