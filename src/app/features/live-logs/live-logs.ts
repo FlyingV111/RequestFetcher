@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {HlmCardDirective, HlmCardHeaderDirective, HlmCardImports} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
+import {BenchmarkHistoryService} from '../../core/services/benchmark-history.service';
 
 @Component({
   selector: 'live-logs',
@@ -14,5 +15,7 @@ import {LucideAngularModule} from 'lucide-angular';
   styleUrl: './live-logs.css'
 })
 export class LiveLogs {
+  private readonly history = inject(BenchmarkHistoryService);
 
+  readonly selectedResult = this.history.selected;
 }

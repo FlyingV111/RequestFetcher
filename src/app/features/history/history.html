@@ -13,7 +13,7 @@
       @for (result of benchmarkResults(); track result.id) {
         <div hlmCard class="history-item">
           <div class="request-header">
-            <button hlmBtn size="icon" variant="ghost">
+            <button hlmBtn size="icon" variant="ghost" (click)="selectResult(result.id)">
               <lucide-icon name="external-link" size="20"></lucide-icon>
             </button>
             <span hlmBadge>{{ result.requests }} reqs</span>
@@ -22,6 +22,9 @@
             <input hlmInput type="text" placeholder="{{ result.url }}" readonly/>
             <button hlmBtn size="icon" variant="outline">
               <lucide-icon name="copy" size="20"></lucide-icon>
+            </button>
+            <button hlmBtn size="icon" variant="ghost" (click)="removeResult(result.id)">
+              <lucide-icon name="trash" size="20"></lucide-icon>
             </button>
           </div>
           <span>Avg: {{ result.averageTime }}ms</span>

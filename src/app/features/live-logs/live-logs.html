@@ -4,7 +4,12 @@
     <h2 hlmCardHeader>System Log</h2>
   </header>
   <div class="log-window" hlmCardContent>
-    <div>> Server gestartet.</div>
-    <div>> Warten auf Eingaben...</div>
+    @if (selectedResult() && selectedResult()!.log.length) {
+      @for (entry of selectedResult()!.log; track $index) {
+        <div>{{ entry }}</div>
+      }
+    } @else {
+      <div class="text-muted-foreground">No log entries</div>
+    }
   </div>
 </section>

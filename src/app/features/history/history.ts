@@ -1,10 +1,11 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {BenchmarkResult} from '../../core/models/BenchmarkResult.model';
 import {LucideAngularModule} from 'lucide-angular';
 import {HlmBadgeImports} from '@spartan-ng/helm/badge';
 import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmInputDirective} from '@spartan-ng/helm/input';
+import {BenchmarkHistoryService} from '../../core/services/benchmark-history.service';
 
 @Component({
   selector: 'history',
@@ -19,19 +20,23 @@ import {HlmInputDirective} from '@spartan-ng/helm/input';
   styleUrl: './history.css'
 })
 export class History {
-  benchmarkResults = signal<BenchmarkResult[]>([]);
+  private readonly history = inject(BenchmarkHistoryService);
+
+  readonly benchmarkResults = this.history.results;
 
   addBenchmarkResult(result: Omit<BenchmarkResult, 'id' | 'timestamp'>): void {
-    const newResult: BenchmarkResult = {
-      ...result,
-      id: crypto.randomUUID(),
-      timestamp: new Date()
-    };
-
-    this.benchmarkResults.update(results => [newResult, ...results]);
+    this.history.addResult(result);
   }
 
   clearHistory(): void {
-    this.benchmarkResults.set([]);
+    this.history.clear();
+  }
+
+  selectResult(id: string): void {
+    this.history.select(id);
+  }
+
+  removeResult(id: string): void {
+    this.history.remove(id);
   }
 }

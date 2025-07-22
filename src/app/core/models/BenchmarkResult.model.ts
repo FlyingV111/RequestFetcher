@@ -7,4 +7,5 @@ export interface BenchmarkResult {
   minTime: number;
   maxTime: number;
   log: string[];
+  durations: number[];
 }
