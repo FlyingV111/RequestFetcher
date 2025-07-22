@@ -64,7 +64,7 @@ export class ResponseChart {
       grid: {
         left: 0,
         right: 10,
-        top: '5%',
+        top: '30rem',
         bottom: 60,
         containLabel: true,
       },

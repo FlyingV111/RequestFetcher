@@ -1,6 +1,7 @@
 :host {
   display: flex;
   height: 100%;
+  overflow: hidden;
 }
 
 .live-logs {
@@ -28,6 +29,8 @@
 }
 
 .log-window {
+  margin-bottom: 1rem;
+  margin-right: .5rem;
   padding: 1.5rem;
   background-color: var(--color-gray-50);
   color: var(--color-gray-800);
