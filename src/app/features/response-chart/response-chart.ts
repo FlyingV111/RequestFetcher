@@ -20,9 +20,9 @@ export class ResponseChart {
   chartsOptions = computed(() => {
     const data = this.benchmark.durations().map((d, i) => {
       if (d === -1) {
-        return {value: [i + 1, 0], itemStyle: {color: '#ef4444'}};
+        return { value: [i + 1, 0], itemStyle: { color: '#ef4444' }, error: true };
       }
-      return {value: [i + 1, d]};
+      return { value: [i + 1, d] };
     });
     const options = this.baseOptions();
     if (Array.isArray(options.series)) {
@@ -76,7 +76,16 @@ export class ResponseChart {
         trigger: "axis",
         formatter: (params: any) => {
           if (!Array.isArray(params)) return '';
-          return params.map(p => `<b>${p.axisValue}</b> Request | <b>${p.data[1]}</b> ms`).join('<br/>');
+          return params
+            .map(p => {
+              const value = Array.isArray(p.value)
+                ? p.value[1]
+                : Array.isArray(p.data)
+                  ? p.data[1]
+                  : p.data?.value?.[1];
+              return `<b>${p.axisValue}</b> Request | <b>${p.data?.error ? 'error' : value}</b>${p.data?.error ? '' : ' ms'}`;
+            })
+            .join('<br/>');
         }
       },
       dataZoom: [

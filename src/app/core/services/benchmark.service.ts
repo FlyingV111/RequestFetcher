@@ -4,11 +4,13 @@ import { firstValueFrom } from 'rxjs';
 import { RequestConfiguration } from '../models/RequestConfiguration.model';
 import { BenchmarkRun } from '../models/BenchmarkRun.model';
 import { BenchmarkHistoryService } from './benchmark-history.service';
+import { ConfigService } from './config.service';
 
 @Injectable({ providedIn: 'root' })
 export class BenchmarkService {
   private readonly http = inject(HttpClient);
   private readonly historyService = inject(BenchmarkHistoryService);
+  private readonly configService = inject(ConfigService);
 
   private readonly durationsSignal = signal<number[]>([]);
   private readonly runningSignal = signal(false);
@@ -33,6 +35,7 @@ export class BenchmarkService {
 
   async startBenchmark(config: RequestConfiguration): Promise<void> {
     if (this.runningSignal()) return;
+    this.configService.setConfiguration(config);
     this.runningSignal.set(true);
     this.durationsSignal.set([]);
     this.logSignal.set([]);
@@ -104,6 +107,18 @@ export class BenchmarkService {
       timestamp: new Date().toISOString()
     };
     this.historyService.addRun(run);
+  }
+
+  loadRun(run: BenchmarkRun): void {
+    this.durationsSignal.set(run.results);
+    this.logSignal.set(
+      run.results.map((r, i) =>
+        r === -1
+          ? `> Request ${i + 1} fehlgeschlagen`
+          : `> Request ${i + 1} erfolgreich in ${r}ms`
+      )
+    );
+    this.configService.setConfiguration(run.config);
   }
 }
 

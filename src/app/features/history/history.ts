@@ -6,6 +6,7 @@ import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmInputDirective} from '@spartan-ng/helm/input';
 import { BenchmarkHistoryService } from '../../core/services/benchmark-history.service';
 import { BenchmarkRun } from '../../core/models/BenchmarkRun.model';
+import { BenchmarkService } from '../../core/services/benchmark.service';
 
 @Component({
   selector: 'history',
@@ -21,10 +22,19 @@ import { BenchmarkRun } from '../../core/models/BenchmarkRun.model';
 })
 export class History {
   private readonly historyService = inject(BenchmarkHistoryService);
+  private readonly benchmark = inject(BenchmarkService);
   benchmarkResults = this.historyService.history;
 
   clearHistory(): void {
     this.historyService.clear();
+  }
+
+  loadRun(run: BenchmarkRun): void {
+    this.benchmark.loadRun(run);
+  }
+
+  deleteRun(timestamp: string): void {
+    this.historyService.remove(timestamp);
   }
 
   average(run: BenchmarkRun): number {

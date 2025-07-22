@@ -11,9 +11,12 @@
   <div hlmCardContent class="history-content">
     <div class="history-list">
       @for (run of benchmarkResults(); track run.timestamp) {
-        <div hlmCard class="history-item">
+        <div hlmCard class="history-item" (click)="loadRun(run)">
           <div class="request-header">
             <span hlmBadge>{{ run.config.requests }} reqs</span>
+            <button hlmBtn variant="ghost" size="icon" (click)="deleteRun(run.timestamp); $event.stopPropagation()">
+              <lucide-icon name="trash" size="16"></lucide-icon>
+            </button>
           </div>
           <div class="request-info">
             <input hlmInput type="text" placeholder="{{ run.config.targetUrl }}" readonly />

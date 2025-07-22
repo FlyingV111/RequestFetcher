@@ -21,6 +21,11 @@ export class BenchmarkHistoryService {
     this.persist();
   }
 
+  remove(timestamp: string): void {
+    this.historySignal.update(h => h.filter(run => run.timestamp !== timestamp));
+    this.persist();
+  }
+
   private persist(): void {
     localStorage.setItem('benchmarkHistory', JSON.stringify(this.historySignal()));
   }
