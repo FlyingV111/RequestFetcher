@@ -2,6 +2,9 @@
   "name": "request-fetcher",
   "version": "0.0.0",
   "main": "main.js",
+  "overrides": {
+    "stylus": "0.0.1-security"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -37,7 +40,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "echarts": "^5.6.0",
-    "electron": "^37.2.3",
     "embla-carousel-angular": ">=19.0.0",
     "lucide-angular": "^0.525.0",
     "ngx-echarts": "^20.0.1",
@@ -52,16 +54,9 @@
     "@angular/build": "^20.1.1",
     "@angular/cli": "^20.1.1",
     "@angular/compiler-cli": "^20.1.0",
+    "@electron/packager": "^18.3.6",
     "@spartan-ng/brain": "^0.0.1-alpha.489",
     "@spartan-ng/cli": "^0.0.1-alpha.489",
-    "@types/jasmine": "~5.1.0",
-    "electron-packager": "^17.1.2",
-    "jasmine-core": "~5.8.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "~5.8.2"
