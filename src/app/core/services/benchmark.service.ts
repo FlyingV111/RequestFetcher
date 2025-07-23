@@ -72,8 +72,7 @@ export class BenchmarkService {
             this.historyService.addRun({ config, results: [], timestamp: ts });
         }
 
-        const headers = config.headerName.trim()
-            ? { [config.headerName]: config.headerValue } : undefined;
+        const headers = this.parseHeaders(config.customHeaders);
 
         const executeRequest = async (index: number) => {
             const start = performance.now();
@@ -142,6 +141,17 @@ export class BenchmarkService {
 
     private appendLog(entry: string): void {
         this.logSignal.update(log => [...log, entry]);
+    }
+
+    private parseHeaders(raw: string): Record<string, string> | undefined {
+        const headers: Record<string, string> = {};
+        raw.split(/\n+/).forEach(line => {
+            const [name, ...rest] = line.split(':');
+            if (!name) return;
+            const value = rest.join(':').trim();
+            headers[name.trim()] = value;
+        });
+        return Object.keys(headers).length ? headers : undefined;
     }
 
     loadRun(run: BenchmarkRun): void {

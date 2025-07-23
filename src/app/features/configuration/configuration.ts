@@ -33,11 +33,12 @@ export class Configuration {
 
   targetUrl = this.config.targetUrl;
   method = this.config.method;
-  headerName = this.config.headerName;
-  headerValue = this.config.headerValue;
+  customHeaders = this.config.customHeaders;
   requests = this.config.requests;
   interval = this.config.interval;
   warmupRequest = this.config.warmupRequest;
+
+  showCustom = false;
 
   readonly isRunning = this.benchmark.isRunning;
   readonly currentRun = this.benchmark.currentRun;
@@ -84,6 +85,10 @@ export class Configuration {
     if (ts) {
       this.benchmark.continueBenchmark(ts);
     }
+  }
+
+  toggleCustom(): void {
+    this.showCustom = !this.showCustom;
   }
 }
 

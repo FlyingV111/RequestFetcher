@@ -57,3 +57,9 @@
   width: 100%;
 }
 
+.custom-editor textarea {
+  width: 100%;
+  min-height: 8rem;
+  font-family: monospace;
+}
+

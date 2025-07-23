@@ -61,29 +61,23 @@
       </select>
     </div>
 
-    <!-- Custom Header Name -->
+    <!-- Custom Header Toggle -->
     <div class="form-field">
-      <label hlmLabel for="header-name">Header Name</label>
-      <input
-        hlmInput
-        id="header-name"
-        type="text"
-        [(ngModel)]="headerName"
-        placeholder="X-Custom-Header"
-      />
+      <button hlmBtn variant="outline" (click)="toggleCustom()">Custom</button>
     </div>
 
-    <!-- Custom Header Value -->
-    <div class="form-field">
-      <label hlmLabel for="header-value">Header Value</label>
-      <input
-        hlmInput
-        id="header-value"
-        type="text"
-        [(ngModel)]="headerValue"
-        placeholder="my-value"
-      />
-    </div>
+    <!-- Custom Header Textarea -->
+    @if (showCustom) {
+      <div class="form-field custom-editor">
+        <label hlmLabel for="custom-headers">Headers</label>
+        <textarea
+          hlmInput
+          id="custom-headers"
+          [(ngModel)]="customHeaders"
+          placeholder="X-Test: 123\nAnother: value"
+        ></textarea>
+      </div>
+    }
 
     <!-- Warm-up Request Toggle -->
     <div class="toggle-field">
