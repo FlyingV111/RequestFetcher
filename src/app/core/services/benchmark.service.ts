@@ -8,162 +8,160 @@ import {ConfigService} from './config.service';
 
 @Injectable({providedIn: 'root'})
 export class BenchmarkService {
-    private readonly http = inject(HttpClient);
-    private readonly historyService = inject(BenchmarkHistoryService);
-    private readonly configService = inject(ConfigService);
+  private readonly http = inject(HttpClient);
+  private readonly historyService = inject(BenchmarkHistoryService);
+  private readonly configService = inject(ConfigService);
 
-    private readonly durationsSignal = signal<number[]>([]);
-    private readonly runningSignal = signal(false);
-    private readonly logSignal = signal<string[]>([]);
-    private readonly currentRunSignal = signal<string | null>(null);
-    readonly currentRun = this.currentRunSignal.asReadonly();
-    private stopRequested = false;
+  private readonly durationsSignal = signal<number[]>([]);
+  private readonly runningSignal = signal(false);
+  private readonly logSignal = signal<string[]>([]);
+  private readonly currentRunSignal = signal<string | null>(null);
+  readonly currentRun = this.currentRunSignal.asReadonly();
+  private stopRequested = false;
 
-    readonly durations = this.durationsSignal.asReadonly();
-    readonly isRunning = this.runningSignal.asReadonly();
-    readonly systemLog = this.logSignal.asReadonly();
+  readonly durations = this.durationsSignal.asReadonly();
+  readonly isRunning = this.runningSignal.asReadonly();
+  readonly systemLog = this.logSignal.asReadonly();
 
-    readonly stats = computed(() => {
-        const vals = this.durationsSignal();
-        if (!vals.length) {
-            return {avg: 0, min: 0, max: 0, successRate: 0};
+  readonly stats = computed(() => {
+    const vals = this.durationsSignal();
+    if (!vals.length) {
+      return {avg: 0, min: 0, max: 0, successRate: 0};
+    }
+    const success = vals.filter(v => v !== -1);
+    const avg = success.length ? success.reduce((a, b) => a + b, 0) / success.length : 0;
+    const min = success.length ? Math.min(...success) : 0;
+    const max = success.length ? Math.max(...success) : 0;
+    const successRate = (success.length / vals.length) * 100;
+    return {avg, min, max, successRate};
+  });
+
+  stopBenchmark(): void {
+    if (!this.runningSignal()) return;
+    this.stopRequested = true;
+  }
+
+  continueBenchmark(timestamp: string): string | undefined {
+    const run = this.historyService.getRun(timestamp);
+    if (!run) return undefined;
+    this.durationsSignal.set(run.results);
+    this.logSignal.set(
+      run.results.map((r, i) =>
+        r === -1
+          ? `> Request ${i + 1} fehlgeschlagen`
+          : `> Request ${i + 1} erfolgreich in ${r}ms`
+      )
+    );
+    return this.startBenchmark(run.config, timestamp, run.results.length);
+  }
+
+  startBenchmark(config: RequestConfiguration, timestamp?: string, startIndex = 0): string {
+    if (this.runningSignal()) return this.currentRunSignal()!;
+    this.configService.setConfiguration(config);
+    this.runningSignal.set(true);
+    this.stopRequested = false;
+
+    if (startIndex === 0) {
+      this.durationsSignal.set([]);
+      this.logSignal.set([]);
+    }
+
+    const ts = timestamp ?? new Date().toISOString();
+    this.currentRunSignal.set(ts);
+    if (startIndex === 0) {
+      this.historyService.addRun({config, results: [], timestamp: ts});
+    }
+
+    const headers = this.parseHeaders(config.customHeaders);
+
+    const executeRequest = async (index: number): Promise<void> => {
+      const start = performance.now();
+      try {
+        await firstValueFrom(
+          this.http.request(config.method, config.targetUrl, {
+            responseType: 'text',
+            observe: 'response',
+            headers
+          })
+        );
+        const dur = Math.round(performance.now() - start);
+        this.updateDuration(index, dur);
+        this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
+      } catch (err: any) {
+        this.updateDuration(index, -1);
+        const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
+        this.appendLog(`> Request ${index + 1} fehlgeschlagen (${message})`);
+      }
+    };
+
+    const runAsync = async (): Promise<void> => {
+      if (config.warmupRequest) {
+        try {
+          await firstValueFrom(
+            this.http.request(config.method, config.targetUrl, {
+              responseType: 'text',
+              observe: 'response',
+              headers
+            })
+          );
+          this.appendLog('> Warmup erfolgreich');
+        } catch (err: any) {
+          const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
+          this.appendLog(`> Warmup fehlgeschlagen (${message})`);
         }
-        const success = vals.filter(v => v !== -1);
-        const avg = success.length ? success.reduce((a, b) => a + b, 0) / success.length : 0;
-        const min = success.length ? Math.min(...success) : 0;
-        const max = success.length ? Math.max(...success) : 0;
-        const successRate = (success.length / vals.length) * 100;
-        return {avg, min, max, successRate};
+        this.appendLog('=============================================');
+      }
+
+      for (let i = startIndex; i < config.requests; i++) {
+        if (this.stopRequested) break;
+        await executeRequest(i);
+        this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
+        if (this.stopRequested) break;
+        if (i < config.requests - 1) {
+          await new Promise(resolve => setTimeout(resolve, config.interval * 1000));
+        }
+      }
+
+      this.runningSignal.set(false);
+      this.appendLog('=============================================');
+      this.appendLog('> Benchmark abgeschlossen');
+      this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
+      this.currentRunSignal.set(null);
+    };
+
+    runAsync();
+    return ts;
+  }
+
+  private updateDuration(index: number, value: number): void {
+    const copy = [...this.durationsSignal()];
+    copy[index] = value;
+    this.durationsSignal.set(copy);
+  }
+
+  private appendLog(entry: string): void {
+    this.logSignal.update(log => [...log, entry]);
+  }
+
+  private parseHeaders(raw: string): Record<string, string> | undefined {
+    const headers: Record<string, string> = {};
+    raw.split(/\n+/).forEach(line => {
+      const [name, ...rest] = line.split(':');
+      if (!name) return;
+      headers[name.trim()] = rest.join(':').trim();
     });
+    return Object.keys(headers).length ? headers : undefined;
+  }
 
-    stopBenchmark(): void {
-        if (!this.runningSignal()) return;
-        this.stopRequested = true;
-    }
-
-    continueBenchmark(timestamp: string): string | void {
-        const run = this.historyService.getRun(timestamp);
-        if (!run) return;
-        this.durationsSignal.set(run.results);
-        this.logSignal.set(
-            run.results.map((r, i) =>
-                r === -1
-                    ? `> Request ${i + 1} fehlgeschlagen`
-                    : `> Request ${i + 1} erfolgreich in ${r}ms`
-            )
-        );
-        return this.startBenchmark(run.config, timestamp, run.results.length);
-    }
-
-    startBenchmark(config: RequestConfiguration, timestamp?: string, startIndex = 0): string {
-        if (this.runningSignal()) return this.currentRunSignal()!;
-        this.configService.setConfiguration(config);
-        this.runningSignal.set(true);
-        this.stopRequested = false;
-
-        if (startIndex === 0) {
-            this.durationsSignal.set([]);
-            this.logSignal.set([]);
-        }
-
-        const ts = timestamp ?? new Date().toISOString();
-        this.currentRunSignal.set(ts);
-        if (startIndex === 0) {
-            this.historyService.addRun({ config, results: [], timestamp: ts });
-        }
-
-        const headers = this.parseHeaders(config.customHeaders);
-
-        const executeRequest = async (index: number) => {
-            const start = performance.now();
-            try {
-                await firstValueFrom(
-                    this.http.request(config.method, config.targetUrl, {
-                        responseType: 'text',
-                        observe: 'response',
-                        headers
-                    })
-                );
-                const dur = Math.round(performance.now() - start);
-                this.updateDuration(index, dur);
-                this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
-            } catch (err: any) {
-                this.updateDuration(index, -1);
-                const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
-                this.appendLog(`> Request ${index + 1} fehlgeschlagen (${message})`);
-            }
-        };
-
-        const runAsync = async () => {
-            if (config.warmupRequest) {
-                try {
-                    await firstValueFrom(
-                        this.http.request(config.method, config.targetUrl, {
-                            responseType: 'text',
-                            observe: 'response',
-                            headers
-                        })
-                    );
-                    this.appendLog('> Warmup erfolgreich');
-                } catch (err: any) {
-                    const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
-                    this.appendLog(`> Warmup fehlgeschlagen (${message})`);
-                }
-                this.appendLog('=============================================');
-            }
-
-            for (let i = startIndex; i < config.requests; i++) {
-                if (this.stopRequested) break;
-                await executeRequest(i);
-                this.historyService.updateRun({ config, results: this.durationsSignal(), timestamp: ts });
-                if (this.stopRequested) break;
-                if (i < config.requests - 1) {
-                    await new Promise(res => setTimeout(res, config.interval * 1000));
-                }
-            }
-
-            this.runningSignal.set(false);
-            this.appendLog('=============================================');
-            this.appendLog('> Benchmark abgeschlossen');
-            this.historyService.updateRun({ config, results: this.durationsSignal(), timestamp: ts });
-            this.currentRunSignal.set(null);
-        };
-
-        runAsync();
-        return ts;
-    }
-
-    private updateDuration(index: number, value: number): void {
-        const copy = [...this.durationsSignal()];
-        copy[index] = value;
-        this.durationsSignal.set(copy);
-    }
-
-    private appendLog(entry: string): void {
-        this.logSignal.update(log => [...log, entry]);
-    }
-
-    private parseHeaders(raw: string): Record<string, string> | undefined {
-        const headers: Record<string, string> = {};
-        raw.split(/\n+/).forEach(line => {
-            const [name, ...rest] = line.split(':');
-            if (!name) return;
-            const value = rest.join(':').trim();
-            headers[name.trim()] = value;
-        });
-        return Object.keys(headers).length ? headers : undefined;
-    }
-
-    loadRun(run: BenchmarkRun): void {
-        this.durationsSignal.set(run.results);
-        this.logSignal.set(
-            run.results.map((r, i) =>
-                r === -1
-                    ? `> Request ${i + 1} fehlgeschlagen`
-                    : `> Request ${i + 1} erfolgreich in ${r}ms`
-            )
-        );
-        this.configService.setConfiguration(run.config);
-    }
+  loadRun(benchmarkRun: BenchmarkRun): void {
+    this.durationsSignal.set(benchmarkRun.results);
+    this.logSignal.set(
+      benchmarkRun.results.map((r, i) =>
+        r === -1
+          ? `> Request ${i + 1} fehlgeschlagen`
+          : `> Request ${i + 1} erfolgreich in ${r}ms`
+      )
+    );
+    this.configService.setConfiguration(benchmarkRun.config);
+  }
 }
-

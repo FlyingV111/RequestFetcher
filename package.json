@@ -1,11 +1,14 @@
 {
   "name": "request-fetcher",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "dist": "npm run build && electron-builder",
+    "electron": "electron .",
     "test": "ng test"
   },
   "prettier": {
