@@ -10,7 +10,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "dist": "npm run build && electron-builder",
+    "dist": "npm run build && npm run electron-build",
+    "electron-build": "npx @electron/packager . RequestFetcher --platform=win32 --arch=x64 --out=dist --overwrite",
     "electron": "electron .",
     "test": "ng test"
   },
@@ -57,6 +58,7 @@
     "@electron/packager": "^18.3.6",
     "@spartan-ng/brain": "^0.0.1-alpha.489",
     "@spartan-ng/cli": "^0.0.1-alpha.489",
+    "electron": "^37.2.3",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "~5.8.2"
