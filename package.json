@@ -8,8 +8,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "build": "ng build --configuration production",
     "dist": "npm run build && npm run electron-build",
     "electron-build": "npx @electron/packager . RequestFetcher --platform=win32 --arch=x64 --out=dist --overwrite",
     "electron": "electron .",
@@ -24,6 +24,18 @@
         }
       }
     ]
+  },
+  "build": {
+    "files": [
+      "dist/",
+      "main.js"
+    ],
+    "win": {
+      "target": "nsis",
+      "compress": "maximum"
+    },
+    "extraFiles": [],
+    "extraResources": []
   },
   "private": true,
   "dependencies": {
