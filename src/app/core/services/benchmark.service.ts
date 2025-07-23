@@ -77,13 +77,16 @@ export class BenchmarkService {
     const executeRequest = async (index: number): Promise<void> => {
       const start = performance.now();
       try {
-        await firstValueFrom(
+        const res = await firstValueFrom(
           this.http.request(config.method, config.targetUrl, {
             responseType: 'text',
             observe: 'response',
             headers
           })
         );
+        if (res.status < 200 || res.status >= 300) {
+          throw { status: res.status, statusText: res.statusText };
+        }
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
         this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
@@ -97,13 +100,16 @@ export class BenchmarkService {
     const runAsync = async (): Promise<void> => {
       if (config.warmupRequest) {
         try {
-          await firstValueFrom(
+          const res = await firstValueFrom(
             this.http.request(config.method, config.targetUrl, {
               responseType: 'text',
               observe: 'response',
               headers
             })
           );
+          if (res.status < 200 || res.status >= 300) {
+            throw { status: res.status, statusText: res.statusText };
+          }
           this.appendLog('> Warmup erfolgreich');
         } catch (err: any) {
           const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
