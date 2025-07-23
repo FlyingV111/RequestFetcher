@@ -5,7 +5,8 @@ import { RequestConfiguration } from '../models/RequestConfiguration.model';
 export class ConfigService {
   readonly targetUrl = signal('');
   readonly method = signal('GET');
-  readonly customCode = signal('');
+  readonly headerName = signal('');
+  readonly headerValue = signal('');
   readonly requests = signal(20);
   readonly interval = signal(1);
   readonly warmupRequest = signal(true);
@@ -14,7 +15,8 @@ export class ConfigService {
     return {
       targetUrl: this.targetUrl(),
       method: this.method(),
-      customCode: this.customCode(),
+      headerName: this.headerName(),
+      headerValue: this.headerValue(),
       requests: this.requests(),
       interval: this.interval(),
       warmupRequest: this.warmupRequest(),
@@ -24,7 +26,8 @@ export class ConfigService {
   setConfiguration(config: RequestConfiguration): void {
     this.targetUrl.set(config.targetUrl);
     this.method.set(config.method);
-    this.customCode.set(config.customCode);
+    this.headerName.set(config.headerName);
+    this.headerValue.set(config.headerValue);
     this.requests.set(config.requests);
     this.interval.set(config.interval);
     this.warmupRequest.set(config.warmupRequest);

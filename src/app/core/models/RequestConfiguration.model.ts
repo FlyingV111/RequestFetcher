@@ -1,7 +1,8 @@
 export interface RequestConfiguration {
   targetUrl: string;
   method: string;
-  customCode: string;
+  headerName: string;
+  headerValue: string;
   requests: number;
   interval: number;
   warmupRequest: boolean;

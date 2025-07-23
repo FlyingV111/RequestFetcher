@@ -72,29 +72,19 @@ export class BenchmarkService {
             this.historyService.addRun({ config, results: [], timestamp: ts });
         }
 
-        const code = config.customCode?.trim();
-        const customFn = code
-            ? new Function(
-                'http',
-                'config',
-                'index',
-                `return (async () => { ${code} })();`
-            )
-            : null;
+        const headers = config.headerName.trim()
+            ? { [config.headerName]: config.headerValue } : undefined;
 
         const executeRequest = async (index: number) => {
             const start = performance.now();
             try {
-                if (customFn) {
-                    await Promise.resolve(customFn(this.http, config, index));
-                } else {
-                    await firstValueFrom(
-                        this.http.request(config.method, config.targetUrl, {
-                            responseType: 'text',
-                            observe: 'response'
-                        })
-                    );
-                }
+                await firstValueFrom(
+                    this.http.request(config.method, config.targetUrl, {
+                        responseType: 'text',
+                        observe: 'response',
+                        headers
+                    })
+                );
                 const dur = Math.round(performance.now() - start);
                 this.updateDuration(index, dur);
                 this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
@@ -108,16 +98,13 @@ export class BenchmarkService {
         const runAsync = async () => {
             if (config.warmupRequest) {
                 try {
-                    if (customFn) {
-                        await Promise.resolve(customFn(this.http, config, -1));
-                    } else {
-                        await firstValueFrom(
-                            this.http.request(config.method, config.targetUrl, {
-                                responseType: 'text',
-                                observe: 'response'
-                            })
-                        );
-                    }
+                    await firstValueFrom(
+                        this.http.request(config.method, config.targetUrl, {
+                            responseType: 'text',
+                            observe: 'response',
+                            headers
+                        })
+                    );
                     this.appendLog('> Warmup erfolgreich');
                 } catch (err: any) {
                     const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
