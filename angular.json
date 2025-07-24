@@ -29,6 +29,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "baseHref": "./",
             "outputPath": {
               "base": "dist/request-fetcher",
               "browser": ""

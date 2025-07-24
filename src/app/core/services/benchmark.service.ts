@@ -81,18 +81,27 @@ export class BenchmarkService {
           this.http.request(config.method, config.targetUrl, {
             responseType: 'text',
             observe: 'response',
-            headers
+            headers,
+            withCredentials: true
           })
         );
         if (res.status < 200 || res.status >= 300) {
-          throw { status: res.status, statusText: res.statusText };
+          throw new Error(`${res.status} ${res.statusText}`);
         }
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
         this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
       } catch (err: any) {
         this.updateDuration(index, -1);
-        const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
+
+        const message =
+          err?.status
+            ? `${err.status} ${err.statusText}`
+            : err instanceof TypeError && err.message?.includes('fetch')
+              ? 'CORS-Fehler oder Netzwerkfehler'
+              : err?.message ?? 'Unbekannter Fehler';
+
+        console.error(`Request ${index + 1} failed:`, err);
         this.appendLog(`> Request ${index + 1} fehlgeschlagen (${message})`);
       }
     };
@@ -108,7 +117,7 @@ export class BenchmarkService {
             })
           );
           if (res.status < 200 || res.status >= 300) {
-            throw { status: res.status, statusText: res.statusText };
+            throw {status: res.status, statusText: res.statusText};
           }
           this.appendLog('> Warmup erfolgreich');
         } catch (err: any) {

@@ -1,13 +1,15 @@
-const { app, BrowserWindow, screen } = require('electron');
+const {app, BrowserWindow, screen, menu} = require('electron');
 const path = require('path');
+
 
 function createWindow() {
   const primaryDisplay = screen.getPrimaryDisplay();
-  const { width, height } = primaryDisplay.workAreaSize;
+  const {width, height} = primaryDisplay.workAreaSize;
 
   const win = new BrowserWindow({
     width,
     height,
+    autoHideMenuBar: true,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
