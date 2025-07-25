@@ -3,14 +3,16 @@
     <lucide-icon name="terminal" size="20"></lucide-icon>
     <h2 hlmCardHeader>System Log</h2>
   </header>
-  @if (hasLogs()) {
-    <div class="log-window" hlmCardContent>
-      @for (entry of logs(); track $index) {
-        <div>{{ entry }}</div>
+
+  <div #scrollframe class="log-window log-text" [class.has-logs]="hasLogs()" hlmCardContent>
+    @if (hasLogs()) {
+      @for (entry of logs(); track $index; let last = $last) {
+        <div [attr.data-last]="last ? true : null" #logItem>{{ entry }}</div>
       }
-    </div>
-  } @else {
-    <div class="log-window text-muted-foreground" hlmCardContent>
+    }
+  </div>
+  @if (!hasLogs()) {
+    <div class="log-text text-muted-foreground" hlmCardContent>
       <p>No logs yet</p>
     </div>
   }

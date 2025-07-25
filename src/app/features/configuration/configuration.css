@@ -1,68 +1,33 @@
-.benchmark-config {
-  width: 100%;
-  max-width: 24rem;
-  margin: 0 auto;
+:host {
+  height: 100%;
+  overflow: hidden;
+}
 
-  .title {
-    font-weight: 600;
+.benchmark-config {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  gap: 1rem;
+  padding: 1.5rem;
+  overflow: hidden;
+
+  header {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  header h2{
+    display: flex;
+    gap: .5rem;
     align-items: center;
+  }
+
+  .tab-list{
+    width: 100%;
     display: flex;
     gap: .5rem;
   }
 }
-
-
-.tab-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  input {
-    width: 100%;
-  }
-
-  label {
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.toggle-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  label {
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-}
-
-.submit-button {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-  width: 100%;
-}
-
-
-.log-area {
-  width: 100%;
-  min-height: 10rem;
-  font-family: ui-monospace, monospace;
-}
-

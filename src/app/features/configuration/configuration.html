@@ -1,34 +1,27 @@
 <section hlmCard class="benchmark-config">
   <header hlmCardHeader>
-    <h2 hlmCardTitle class="title">
+    <h2 hlmCardTitle>
       <lucide-icon name="settings" size="20"></lucide-icon>
       Configuration
     </h2>
     <p hlmCardDescription>Setup your benchmark parameters</p>
   </header>
-  <hlm-tabs value="basic" class="flex flex-col">
-    <hlm-tabs-list class="mb-4">
-      <hlm-tabs-trigger value="basic">Basic</hlm-tabs-trigger>
-      <hlm-tabs-trigger value="advanced">Advanced</hlm-tabs-trigger>
-      <hlm-tabs-trigger value="headers">Headers</hlm-tabs-trigger>
+  <hlm-tabs tab="basic" class="flex flex-col">
+    <hlm-tabs-list class="tab-list">
+      <button hlmTabsTrigger="basic">Basic</button>
+      <button hlmTabsTrigger="advanced">Advanced</button>
+      <button hlmTabsTrigger="headers">Headers</button>
     </hlm-tabs-list>
-    <hlm-tabs-content value="basic" class="tab-content">
-      <basic-tab />
-    </hlm-tabs-content>
-    <hlm-tabs-content value="advanced" class="tab-content">
-      <advanced-tab />
-    </hlm-tabs-content>
-    <hlm-tabs-content value="headers" class="tab-content">
-      <headers-tab />
-    </hlm-tabs-content>
+    <basic-tab hlmTabsContent="basic"/>
+    <advanced-tab hlmTabsContent="advanced"/>
+    <headers-tab hlmTabsContent="headers"/>
   </hlm-tabs>
-  <div class="p-4">
-    <button hlmBtn class="submit-button" variant="default" (click)="startBenchmark()" [disabled]="!isValidConfiguration()">Start Requests</button>
+  <div>
+    <button hlmBtn class="submit-button" variant="default" (click)="startBenchmark()"
+            [disabled]="!isValidConfiguration()">Start Requests
+    </button>
     @if (isRunning()) {
       <button hlmBtn variant="outline" class="submit-button" (click)="stopBenchmark()">Stop</button>
     }
-  </div>
-  <div class="p-4">
-    <textarea hlmInput readonly disabled [value]="benchmark.systemLog().join('\n')" class="log-area"></textarea>
   </div>
 </section>

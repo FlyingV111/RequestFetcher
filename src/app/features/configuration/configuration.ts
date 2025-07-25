@@ -1,14 +1,14 @@
-import {Component, inject, effect} from '@angular/core';
+import {Component, effect, inject} from '@angular/core';
 import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {HlmTabsImports} from '@spartan-ng/helm/tabs';
 import {LucideAngularModule} from 'lucide-angular';
-import { BenchmarkService } from '../../core/services/benchmark.service';
-import { ConfigService } from '../../core/services/config.service';
+import {BenchmarkService} from '../../core/services/benchmark.service';
+import {ConfigService} from '../../core/services/config.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { BasicTab } from './basic-tab';
-import { AdvancedTab } from './advanced-tab';
-import { HeadersTab } from './headers-tab';
+import {BasicTab} from './components/basic-tab/basic-tab';
+import {AdvancedTab} from './components/advanced-tab/advanced-tab';
+import {HeadersTab} from './components/header-tab/headers-tab';
 
 @Component({
   selector: 'configuration',

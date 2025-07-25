@@ -8,172 +8,252 @@ import {ConfigService} from './config.service';
 
 @Injectable({providedIn: 'root'})
 export class BenchmarkService {
-  private readonly http = inject(HttpClient);
+  private readonly httpClient = inject(HttpClient);
   private readonly historyService = inject(BenchmarkHistoryService);
   private readonly configService = inject(ConfigService);
 
-  private readonly durationsSignal = signal<number[]>([]);
-  private readonly runningSignal = signal(false);
-  private readonly logSignal = signal<string[]>([]);
-  private readonly currentRunSignal = signal<string | null>(null);
-  readonly currentRun = this.currentRunSignal.asReadonly();
-  private stopRequested = false;
+  private readonly requestDurations = signal<number[]>([]);
+  private readonly isBenchmarkRunning = signal(false);
+  private readonly executionLog = signal<string[]>([]);
+  private readonly activeRunId = signal<string | null>(null);
 
-  readonly durations = this.durationsSignal.asReadonly();
-  readonly isRunning = this.runningSignal.asReadonly();
-  readonly systemLog = this.logSignal.asReadonly();
+  private shouldStopExecution = false;
+
+  readonly currentRun = this.activeRunId.asReadonly();
+  readonly durations = this.requestDurations.asReadonly();
+  readonly isRunning = this.isBenchmarkRunning.asReadonly();
+  readonly systemLog = this.executionLog.asReadonly();
 
   readonly stats = computed(() => {
-    const vals = this.durationsSignal();
-    if (!vals.length) {
+    const durations = this.requestDurations();
+    if (!durations.length) {
       return {avg: 0, min: 0, max: 0, successRate: 0};
     }
-    const success = vals.filter(v => v !== -1);
-    const avg = success.length ? success.reduce((a, b) => a + b, 0) / success.length : 0;
-    const min = success.length ? Math.min(...success) : 0;
-    const max = success.length ? Math.max(...success) : 0;
-    const successRate = (success.length / vals.length) * 100;
+
+    const successfulRequests = durations.filter(duration => duration !== -1);
+    const totalRequests = durations.length;
+
+    const avg = successfulRequests.length
+      ? successfulRequests.reduce((sum, duration) => sum + duration, 0) / successfulRequests.length
+      : 0;
+    const min = successfulRequests.length ? Math.min(...successfulRequests) : 0;
+    const max = successfulRequests.length ? Math.max(...successfulRequests) : 0;
+    const successRate = (successfulRequests.length / totalRequests) * 100;
+
     return {avg, min, max, successRate};
   });
 
   stopBenchmark(): void {
-    if (!this.runningSignal()) return;
-    this.stopRequested = true;
+    if (!this.isBenchmarkRunning()) return;
+    this.shouldStopExecution = true;
   }
 
   continueBenchmark(timestamp: string): string | undefined {
-    const run = this.historyService.getRun(timestamp);
-    if (!run) return undefined;
-    this.durationsSignal.set(run.results);
-    this.logSignal.set(
-      run.results.map((r, i) =>
-        r === -1
-          ? `> Request ${i + 1} fehlgeschlagen`
-          : `> Request ${i + 1} erfolgreich in ${r}ms`
-      )
-    );
-    return this.startBenchmark(run.config, timestamp, run.results.length);
+    const existingRun = this.historyService.getRun(timestamp);
+    if (!existingRun) return undefined;
+
+    this.loadRunResults(existingRun);
+    return this.startBenchmark(existingRun.config, timestamp, existingRun.results.length);
   }
 
   startBenchmark(config: RequestConfiguration, timestamp?: string, startIndex = 0): string {
-    if (this.runningSignal()) return this.currentRunSignal()!;
-    this.configService.setConfiguration(config);
-    this.runningSignal.set(true);
-    this.stopRequested = false;
+    if (this.isBenchmarkRunning()) return this.activeRunId()!;
+
+    this.initializeBenchmarkRun(config, startIndex);
+
+    const runId = timestamp ?? new Date().toISOString();
+    this.activeRunId.set(runId);
 
     if (startIndex === 0) {
-      this.durationsSignal.set([]);
-      this.logSignal.set([]);
+      this.historyService.addRun({config, results: [], timestamp: runId});
     }
 
-    const ts = timestamp ?? new Date().toISOString();
-    this.currentRunSignal.set(ts);
-    if (startIndex === 0) {
-      this.historyService.addRun({config, results: [], timestamp: ts});
-    }
-
-    const headers = config.customHeaders;
-
-    const sendOnce = async (index: number): Promise<void> => {
-      const start = performance.now();
-      this.appendLog(`[${new Date().toLocaleTimeString()}] Sending ${config.method} ${config.targetUrl}`);
-      try {
-        const res = await firstValueFrom(
-          this.http.request(config.method, config.targetUrl, {
-            responseType: 'text',
-            observe: 'response',
-            headers,
-            withCredentials: true,
-          })
-        );
-        const dur = Math.round(performance.now() - start);
-        this.updateDuration(index, dur);
-        this.appendLog(`[${new Date().toLocaleTimeString()}] \u2705 Response ${res.status} ${res.statusText} (${dur} ms)`);
-      } catch (err: any) {
-        this.updateDuration(index, -1);
-        const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Error';
-        this.appendLog(`[${new Date().toLocaleTimeString()}] \u274C Request failed: ${message}`);
-        console.error(`Request ${index + 1} failed:`, err);
-      }
-    };
-
-    const runAsync = async (): Promise<void> => {
-      if (config.warmupRequest) {
-        try {
-          await sendOnce(-1);
-          this.appendLog('---------------------------------------------');
-        } catch {}
-      }
-
-      const queue = Array.from({ length: config.requests - startIndex }, (_, i) => i + startIndex);
-      let active = 0;
-      const next = async (): Promise<void> => {
-        if (this.stopRequested || !queue.length) return;
-        const i = queue.shift()!;
-        active++;
-        for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
-          await sendOnce(i);
-          if (!this.stopRequested) break;
-        }
-        active--;
-        this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
-        if (!queue.length && active === 0) return done();
-        if (config.asyncMode) {
-          next();
-        }
-      };
-
-      const done = () => {
-        this.runningSignal.set(false);
-        this.appendLog('---------------------------------------------');
-        this.appendLog('> Benchmark abgeschlossen');
-        this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
-        this.currentRunSignal.set(null);
-      };
-
-      if (config.asyncMode) {
-        const limit = Math.max(1, config.concurrentLimit);
-        for (let i = 0; i < limit && queue.length; i++) {
-          void next();
-        }
-      } else {
-        for (const i of queue) {
-          if (this.stopRequested) break;
-          await sendOnce(i);
-          this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
-          if (this.stopRequested) break;
-          if (i < config.requests - 1) {
-            const delay = config.randomDelay ? Math.random() * config.interval * 1000 : config.interval * 1000;
-            await new Promise(resolve => setTimeout(resolve, delay));
-          }
-        }
-        done();
-      }
-    };
-
-    runAsync();
-    return ts;
-  }
-
-  private updateDuration(index: number, value: number): void {
-    const copy = [...this.durationsSignal()];
-    copy[index] = value;
-    this.durationsSignal.set(copy);
-  }
-
-  private appendLog(entry: string): void {
-    this.logSignal.update(log => [...log, entry]);
+    this.executeBenchmarkAsync(config, runId, startIndex).finally();
+    return runId;
   }
 
   loadRun(benchmarkRun: BenchmarkRun): void {
-    this.durationsSignal.set(benchmarkRun.results);
-    this.logSignal.set(
-      benchmarkRun.results.map((r, i) =>
-        r === -1
-          ? `> Request ${i + 1} fehlgeschlagen`
-          : `> Request ${i + 1} erfolgreich in ${r}ms`
+    this.loadRunResults(benchmarkRun);
+    this.configService.setConfiguration(benchmarkRun.config);
+  }
+
+  private initializeBenchmarkRun(config: RequestConfiguration, startIndex: number): void {
+    this.configService.setConfiguration(config);
+    this.isBenchmarkRunning.set(true);
+    this.shouldStopExecution = false;
+
+    if (startIndex === 0) {
+      this.requestDurations.set([]);
+      this.executionLog.set([]);
+    }
+  }
+
+  private loadRunResults(benchmarkRun: BenchmarkRun): void {
+    this.requestDurations.set(benchmarkRun.results);
+    this.executionLog.set(
+      benchmarkRun.results.map((result, index) =>
+        result === -1
+          ? `> Request ${index + 1} fehlgeschlagen`
+          : `> Request ${index + 1} erfolgreich in ${result}ms`
       )
     );
-    this.configService.setConfiguration(benchmarkRun.config);
+  }
+
+  private async executeBenchmarkAsync(config: RequestConfiguration, runId: string, startIndex: number): Promise<void> {
+    if (config.warmupRequest) {
+      await this.executeWarmupRequest(config);
+    }
+
+    if (config.asyncMode) {
+      await this.executeAsyncRequests(config, runId, startIndex);
+    } else {
+      await this.executeSequentialRequests(config, runId, startIndex);
+    }
+  }
+
+  private async executeWarmupRequest(config: RequestConfiguration): Promise<void> {
+    try {
+      await this.sendSingleRequest(-1, config);
+      this.addLogEntry('---------------------------------------------');
+    } catch {
+      this.addLogEntry("> Warnung: Warmup-Request fehlgeschlagen, Benchmark wird fortgesetzt");
+    }
+  }
+
+  private async executeAsyncRequests(config: RequestConfiguration, runId: string, startIndex: number): Promise<void> {
+    const requestQueue = Array.from(
+      {length: config.requests - startIndex},
+      (_, i) => i + startIndex
+    );
+
+    let activeRequests = 0;
+    const concurrencyLimit = Math.max(1, config.concurrentLimit);
+
+    const processNextRequest = async (): Promise<void> => {
+      if (this.shouldStopExecution || !requestQueue.length) return;
+
+      const requestIndex = requestQueue.shift()!;
+      activeRequests++;
+
+      await this.executeRequestWithRetries(requestIndex, config);
+      activeRequests--;
+
+      this.updateHistoryEntry(config, runId);
+
+      if (!requestQueue.length && activeRequests === 0) {
+        this.finalizeBenchmarkRun(runId);
+        return;
+      }
+
+      if (!this.shouldStopExecution) {
+        void processNextRequest();
+      }
+    };
+
+    for (let i = 0; i < concurrencyLimit && requestQueue.length; i++) {
+      void processNextRequest();
+    }
+  }
+
+  private async executeSequentialRequests(config: RequestConfiguration, runId: string, startIndex: number): Promise<void> {
+    const totalRequests = config.requests;
+
+    for (let i = startIndex; i < totalRequests; i++) {
+      if (this.shouldStopExecution) break;
+
+      await this.executeRequestWithRetries(i, config);
+      this.updateHistoryEntry(config, runId);
+
+      if (this.shouldStopExecution) break;
+
+      if (i < totalRequests - 1) {
+        await this.waitForNextRequest(config);
+      }
+    }
+
+    this.finalizeBenchmarkRun(runId);
+  }
+
+  private async executeRequestWithRetries(requestIndex: number, config: RequestConfiguration): Promise<void> {
+    for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
+      await this.sendSingleRequest(requestIndex, config);
+      if (!this.shouldStopExecution) break;
+    }
+  }
+
+  private async sendSingleRequest(requestIndex: number, config: RequestConfiguration): Promise<void> {
+    const startTime = performance.now();
+    const timestamp = new Date().toLocaleTimeString();
+
+    this.addLogEntry(`[${timestamp}] Sending ${config.method} ${config.targetUrl}`);
+    const requiresCredentials = config.authentication === 'basic';
+    try {
+      const response = await firstValueFrom(
+        this.httpClient.request(config.method, config.targetUrl, {
+          responseType: 'text',
+          observe: 'response',
+          headers: config.customHeaders,
+          withCredentials: true,
+        })
+      );
+
+      const duration = Math.round(performance.now() - startTime);
+      this.recordRequestDuration(requestIndex, duration);
+      this.addLogEntry(
+        `[${timestamp}] ✅ Response ${response.status} ${response.statusText} (${duration} ms)`
+      );
+    } catch (error: any) {
+      console.error(error);
+      this.recordRequestDuration(requestIndex, -1);
+
+      let errorMessage = 'Unbekannter Fehler';
+      const isHttpError = error?.status !== undefined;
+
+      if (error?.status === 0) {
+        errorMessage = ` - Netzwerkfehler oder CORS-Verstoß bei ${config.targetUrl}`;
+      } else if (isHttpError) {
+        errorMessage = `${error.status} ${error.statusText}`;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+
+      this.addLogEntry(`[${timestamp}] ❌ Request failed: ${errorMessage}`);
+      console.error(`Request ${requestIndex + 1} failed:`, error);
+    }
+  }
+
+  private async waitForNextRequest(config: RequestConfiguration): Promise<void> {
+    const baseDelay = config.interval * 1000;
+    const delay = config.randomDelay
+      ? Math.random() * baseDelay
+      : baseDelay;
+
+    await new Promise(resolve => setTimeout(resolve, delay));
+  }
+
+  private recordRequestDuration(requestIndex: number, duration: number): void {
+    const currentDurations = [...this.requestDurations()];
+    currentDurations[requestIndex] = duration;
+    this.requestDurations.set(currentDurations);
+  }
+
+  private addLogEntry(logEntry: string): void {
+    this.executionLog.update(currentLog => [...currentLog, logEntry]);
+  }
+
+  private updateHistoryEntry(config: RequestConfiguration, runId: string): void {
+    this.historyService.updateRun({
+      config,
+      results: this.requestDurations(),
+      timestamp: runId
+    });
+  }
+
+  private finalizeBenchmarkRun(runId: string): void {
+    this.isBenchmarkRunning.set(false);
+    this.addLogEntry('---------------------------------------------');
+    this.addLogEntry('> Benchmark abgeschlossen');
+    this.updateHistoryEntry(this.configService.getConfiguration(), runId);
+    this.activeRunId.set(null);
   }
 }

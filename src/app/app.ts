@@ -28,7 +28,8 @@ export class App {
         title: 'Average',
         value: `${Math.round(stats.avg)}ms`,
         colorIcon: 'text-orange-500 border border-orange-500',
-        color: 'text-orange-500'
+        color: 'text-orange-500',
+        style: null
       },
       {
         id: 2,
@@ -36,7 +37,8 @@ export class App {
         title: 'Min',
         value: `${stats.min}ms`,
         colorIcon: '',
-        color: ''
+        color: '',
+        style: null
       },
       {
         id: 3,
@@ -44,7 +46,8 @@ export class App {
         title: 'Max',
         value: `${stats.max}ms`,
         colorIcon: '',
-        color: ''
+        color: '',
+        style: null
       },
       {
         id: 4,

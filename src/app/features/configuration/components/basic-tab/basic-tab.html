@@ -1,0 +1,52 @@
+<div class="form-field">
+  <label hlmLabel for="target-url">Target URL</label>
+  <input hlmInput id="target-url" type="url"
+         [ngModel]="cfg().targetUrl"
+         (ngModelChange)="update('targetUrl', $event)"
+         placeholder="https://example.com"/>
+</div>
+<div class="form-container">
+  <div class="form-field">
+    <label hlmLabel for="requests">Requests</label>
+    <input hlmInput id="requests" type="number" min="1"
+           [ngModel]="cfg().requests"
+           (ngModelChange)="update('requests', $event)"/>
+  </div>
+  <div class="form-field">
+    <label hlmLabel for="interval">Interval (s)</label>
+    <input hlmInput id="interval" type="number" step="0.1" min="0"
+           [ngModel]="cfg().interval"
+           (ngModelChange)="update('interval', $event)"/>
+  </div>
+</div>
+<div class="form-field">
+  <label hlmLabel for="method">HTTP Method</label>
+  <brn-select
+    class="w-full"
+    id="method"
+    placeholder="Select an option"
+    [(ngModel)]="cfg().method"
+  >
+    <hlm-select-trigger class="w-full">
+      <hlm-select-value/>
+    </hlm-select-trigger>
+    <hlm-select-content class="w-full">
+      <hlm-option value="GET">GET</hlm-option>
+      <hlm-option value="POST">POST</hlm-option>
+      <hlm-option value="PUT">PUT</hlm-option>
+      <hlm-option value="Signout">DELETE</hlm-option>
+    </hlm-select-content>
+  </brn-select>
+</div>
+<div class="toggle-field">
+  <label hlmLabel for="warmup-request">Warm-up Request</label>
+  <hlm-switch id="warmup-request"
+              [ngModel]="cfg().warmupRequest"
+              (ngModelChange)="update('warmupRequest', $event)"></hlm-switch>
+</div>
+<div class="toggle-field">
+  <label hlmLabel for="follow">Follow Redirects</label>
+  <hlm-switch id="follow"
+              [ngModel]="cfg().followRedirects"
+              (ngModelChange)="update('followRedirects', $event)"></hlm-switch>
+</div>

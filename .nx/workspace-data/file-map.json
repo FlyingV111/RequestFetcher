@@ -1,1185 +1,430 @@
 {
   "version": "6.0",
-  "nxVersion": "21.3.2",
+  "nxVersion": "21.3.5",
   "pathMappings": {
-    "@spartan-ng/helm/accordion": [
-      "./src/app/shared/ui/ui-accordion-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/alert": [
-      "./src/app/shared/ui/ui-alert-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/alert-dialog": [
-      "./src/app/shared/ui/ui-alert-dialog-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/aspect-ratio": [
-      "./src/app/shared/ui/ui-aspect-ratio-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/avatar": [
-      "./src/app/shared/ui/ui-avatar-helm/src/index.ts"
-    ],
     "@spartan-ng/helm/badge": [
       "./src/app/shared/ui/ui-badge-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/breadcrumb": [
-      "./src/app/shared/ui/ui-breadcrumb-helm/src/index.ts"
     ],
     "@spartan-ng/helm/button": [
       "./src/app/shared/ui/ui-button-helm/src/index.ts"
     ],
-    "@spartan-ng/helm/calendar": [
-      "./src/app/shared/ui/ui-calendar-helm/src/index.ts"
-    ],
     "@spartan-ng/helm/card": [
       "./src/app/shared/ui/ui-card-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/carousel": [
-      "./src/app/shared/ui/ui-carousel-helm/src/index.ts"
     ],
     "@spartan-ng/helm/checkbox": [
       "./src/app/shared/ui/ui-checkbox-helm/src/index.ts"
     ],
-    "@spartan-ng/helm/command": [
-      "./src/app/shared/ui/ui-command-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/date-picker": [
-      "./src/app/shared/ui/ui-date-picker-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/dialog": [
-      "./src/app/shared/ui/ui-dialog-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/form-field": [
-      "./src/app/shared/ui/ui-form-field-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/hover-card": [
-      "./src/app/shared/ui/ui-hover-card-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/icon": [
-      "./src/app/shared/ui/ui-icon-helm/src/index.ts"
-    ],
     "@spartan-ng/helm/input": [
       "./src/app/shared/ui/ui-input-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/input-otp": [
-      "./src/app/shared/ui/ui-input-otp-helm/src/index.ts"
     ],
     "@spartan-ng/helm/label": [
       "./src/app/shared/ui/ui-label-helm/src/index.ts"
     ],
-    "@spartan-ng/helm/menu": [
-      "./src/app/shared/ui/ui-menu-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/pagination": [
-      "./src/app/shared/ui/ui-pagination-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/popover": [
-      "./src/app/shared/ui/ui-popover-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/progress": [
-      "./src/app/shared/ui/ui-progress-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/radio-group": [
-      "./src/app/shared/ui/ui-radio-group-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/scroll-area": [
-      "./src/app/shared/ui/ui-scroll-area-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/select": [
-      "./src/app/shared/ui/ui-select-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/separator": [
-      "./src/app/shared/ui/ui-separator-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/sheet": [
-      "./src/app/shared/ui/ui-sheet-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/skeleton": [
-      "./src/app/shared/ui/ui-skeleton-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/slider": [
-      "./src/app/shared/ui/ui-slider-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/sonner": [
-      "./src/app/shared/ui/ui-sonner-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/spinner": [
-      "./src/app/shared/ui/ui-spinner-helm/src/index.ts"
-    ],
     "@spartan-ng/helm/switch": [
       "./src/app/shared/ui/ui-switch-helm/src/index.ts"
     ],
-    "@spartan-ng/helm/table": [
-      "./src/app/shared/ui/ui-table-helm/src/index.ts"
+    "@spartan-ng/helm/icon": [
+      "./src/app/shared/ui/ui-icon-helm/src/index.ts"
     ],
     "@spartan-ng/helm/tabs": [
       "./src/app/shared/ui/ui-tabs-helm/src/index.ts"
     ],
-    "@spartan-ng/helm/toggle": [
-      "./src/app/shared/ui/ui-toggle-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/toggle-group": [
-      "./src/app/shared/ui/ui-toggle-group-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/tooltip": [
-      "./src/app/shared/ui/ui-tooltip-helm/src/index.ts"
-    ],
-    "@spartan-ng/helm/typography": [
-      "./src/app/shared/ui/ui-typography-helm/src/index.ts"
+    "@spartan-ng/helm/select": [
+      "./src/app/shared/ui/ui-select-helm/src/index.ts"
     ]
   },
   "nxJsonPlugins": [],
   "fileMap": {
-    "projectFileMap": {
-      "RequestFetcher": [
-        {
-          "file": ".editorconfig",
-          "hash": "4165385352547808172"
-        },
-        {
-          "file": ".gitignore",
-          "hash": "18168400278403753650"
-        },
-        {
-          "file": ".postcssrc.json",
-          "hash": "1757434806578486340"
-        },
-        {
-          "file": ".vscode/extensions.json",
-          "hash": "5331566439708925252"
-        },
-        {
-          "file": ".vscode/launch.json",
-          "hash": "17038929134016848735"
-        },
-        {
-          "file": ".vscode/tasks.json",
-          "hash": "5336636969995539451"
-        },
-        {
-          "file": "README.md",
-          "hash": "12565824139815202460"
-        },
-        {
-          "file": "RequestFetcher.iml",
-          "hash": "11801810406149051505"
-        },
-        {
-          "file": "angular.json",
-          "hash": "15022875222389036078"
-        },
-        {
-          "file": "components.json",
-          "hash": "3452419036745582917"
-        },
-        {
-          "file": "package-lock.json",
-          "hash": "345314811492952401"
-        },
-        {
-          "file": "package.json",
-          "hash": "17059117700886136497",
-          "deps": [
-            "npm:@angular/build",
-            "npm:@angular/cli",
-            "npm:@angular/compiler-cli",
-            "npm:@spartan-ng/brain",
-            "npm:@spartan-ng/cli",
-            "npm:@types/jasmine",
-            "npm:jasmine-core",
-            "npm:karma",
-            "npm:karma-chrome-launcher",
-            "npm:karma-coverage",
-            "npm:karma-jasmine",
-            "npm:karma-jasmine-html-reporter",
-            "npm:tailwind-merge",
-            "npm:tailwindcss-animate",
-            "npm:typescript",
-            "npm:@angular/animations",
-            "npm:@angular/cdk",
-            "npm:@angular/common",
-            "npm:@angular/compiler",
-            "npm:@angular/core",
-            "npm:@angular/forms",
-            "npm:@angular/platform-browser",
-            "npm:@angular/router",
-            "npm:@ng-icons/core",
-            "npm:@ng-icons/lucide",
-            "npm:@tailwindcss/postcss",
-            "npm:class-variance-authority",
-            "npm:clsx",
-            "npm:echarts",
-            "npm:embla-carousel-angular",
-            "npm:lucide-angular",
-            "npm:ngx-echarts",
-            "npm:ngx-sonner",
-            "npm:postcss",
-            "npm:rxjs",
-            "npm:tailwindcss",
-            "npm:tslib",
-            "npm:zone.js"
-          ]
-        },
-        {
-          "file": "public/favicon.ico",
-          "hash": "3988961587069885523"
-        },
-        {
-          "file": "src/app/app.config.ts",
-          "hash": "13133546157229929912"
-        },
-        {
-          "file": "src/app/app.css",
-          "hash": "9774526296771711574"
-        },
-        {
-          "file": "src/app/app.html",
-          "hash": "6398617771045190377"
-        },
-        {
-          "file": "src/app/app.routes.ts",
-          "hash": "12397496131277534773"
-        },
-        {
-          "file": "src/app/app.ts",
-          "hash": "4677778678238416057"
-        },
-        {
-          "file": "src/app/core/BenchmarkResult.model.ts",
-          "hash": "12306417835313320838"
-        },
-        {
-          "file": "src/app/features/configuration/configuration.css",
-          "hash": "779101524489062518"
-        },
-        {
-          "file": "src/app/features/configuration/configuration.html",
-          "hash": "6792309576928264798"
-        },
-        {
-          "file": "src/app/features/configuration/configuration.ts",
-          "hash": "9629708182359935115"
-        },
-        {
-          "file": "src/app/features/history/history.css",
-          "hash": "10013555405333324551"
-        },
-        {
-          "file": "src/app/features/history/history.html",
-          "hash": "11248772010376225804"
-        },
-        {
-          "file": "src/app/features/history/history.ts",
-          "hash": "9795525556167929820"
-        },
-        {
-          "file": "src/app/features/live-logs/live-logs.css",
-          "hash": "17098558743366396893"
-        },
-        {
-          "file": "src/app/features/live-logs/live-logs.html",
-          "hash": "12890182054981161185"
-        },
-        {
-          "file": "src/app/features/live-logs/live-logs.ts",
-          "hash": "10705462668254919551"
-        },
-        {
-          "file": "src/app/features/response-chart/response-chart.css",
-          "hash": "18162833495367004592"
-        },
-        {
-          "file": "src/app/features/response-chart/response-chart.html",
-          "hash": "2123598578340590508"
-        },
-        {
-          "file": "src/app/features/response-chart/response-chart.ts",
-          "hash": "9091247568131239344"
-        },
-        {
-          "file": "src/app/shared/ui/ui-accordion-helm/src/index.ts",
-          "hash": "16966080643737820728"
-        },
-        {
-          "file": "src/app/shared/ui/ui-accordion-helm/src/lib/hlm-accordion-content.component.ts",
-          "hash": "16736292731783231865"
-        },
-        {
-          "file": "src/app/shared/ui/ui-accordion-helm/src/lib/hlm-accordion-icon.directive.ts",
-          "hash": "12712127379797888633"
-        },
-        {
-          "file": "src/app/shared/ui/ui-accordion-helm/src/lib/hlm-accordion-item.directive.ts",
-          "hash": "9482352888795276664"
-        },
-        {
-          "file": "src/app/shared/ui/ui-accordion-helm/src/lib/hlm-accordion-trigger.directive.ts",
-          "hash": "11463833630531298838"
-        },
-        {
-          "file": "src/app/shared/ui/ui-accordion-helm/src/lib/hlm-accordion.directive.ts",
-          "hash": "13647033313944643114"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/index.ts",
-          "hash": "8146933523089635701"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-action-button.directive.ts",
-          "hash": "1585829196711832620"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-cancel-button.directive.ts",
-          "hash": "17746202636761761188"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-content.component.ts",
-          "hash": "14912624621752189568"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-description.directive.ts",
-          "hash": "18059473087251861850"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-footer.component.ts",
-          "hash": "13577002280461872139"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-header.component.ts",
-          "hash": "11190469461570063166"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-overlay.directive.ts",
-          "hash": "8616613537355238392"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog-title.directive.ts",
-          "hash": "10063113305747071428"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-dialog-helm/src/lib/hlm-alert-dialog.component.ts",
-          "hash": "8498035084345322100"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-helm/src/index.ts",
-          "hash": "3791802788218093072"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-helm/src/lib/hlm-alert-description.directive.ts",
-          "hash": "18166921987126172527"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-helm/src/lib/hlm-alert-icon.directive.ts",
-          "hash": "6871611576989547509"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-helm/src/lib/hlm-alert-title.directive.ts",
-          "hash": "4248781700417490111"
-        },
-        {
-          "file": "src/app/shared/ui/ui-alert-helm/src/lib/hlm-alert.directive.ts",
-          "hash": "16193932926506626191"
-        },
-        {
-          "file": "src/app/shared/ui/ui-aspect-ratio-helm/src/index.ts",
-          "hash": "6600508035470287061"
-        },
-        {
-          "file": "src/app/shared/ui/ui-aspect-ratio-helm/src/lib/helm-aspect-ratio.directive.ts",
-          "hash": "18183392675118450142"
-        },
-        {
-          "file": "src/app/shared/ui/ui-avatar-helm/src/index.ts",
-          "hash": "16111783170664857174"
-        },
-        {
-          "file": "src/app/shared/ui/ui-avatar-helm/src/lib/fallback/hlm-avatar-fallback.directive.ts",
-          "hash": "17919938835893118250"
-        },
-        {
-          "file": "src/app/shared/ui/ui-avatar-helm/src/lib/fallback/index.ts",
-          "hash": "4095308081400682735"
-        },
-        {
-          "file": "src/app/shared/ui/ui-avatar-helm/src/lib/hlm-avatar.component.ts",
-          "hash": "8481257557028917452"
-        },
-        {
-          "file": "src/app/shared/ui/ui-avatar-helm/src/lib/image/hlm-avatar-image.directive.ts",
-          "hash": "7913232433326375067"
-        },
-        {
-          "file": "src/app/shared/ui/ui-avatar-helm/src/lib/image/index.ts",
-          "hash": "725402389627633520"
-        },
-        {
-          "file": "src/app/shared/ui/ui-badge-helm/src/index.ts",
-          "hash": "6156629311968503913"
-        },
-        {
-          "file": "src/app/shared/ui/ui-badge-helm/src/lib/hlm-badge.directive.ts",
-          "hash": "4001444761556944107"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/index.ts",
-          "hash": "18342480858812674561"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb-ellipsis.component.ts",
-          "hash": "11284125902856112920"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb-item.directive.ts",
-          "hash": "8792074660939426910"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb-link.directive.ts",
-          "hash": "4907396567983150959"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb-list.directive.ts",
-          "hash": "8128072907428031254"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb-page.directive.ts",
-          "hash": "6537888107417962251"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb-separator.component.ts",
-          "hash": "5974576035773998168"
-        },
-        {
-          "file": "src/app/shared/ui/ui-breadcrumb-helm/src/lib/hlm-breadcrumb.directive.ts",
-          "hash": "18129467465115673010"
-        },
-        {
-          "file": "src/app/shared/ui/ui-button-helm/src/index.ts",
-          "hash": "1172790725020474104"
-        },
-        {
-          "file": "src/app/shared/ui/ui-button-helm/src/lib/hlm-button.directive.ts",
-          "hash": "7030409177781286625"
-        },
-        {
-          "file": "src/app/shared/ui/ui-button-helm/src/lib/hlm-button.token.ts",
-          "hash": "7896754714560199098"
-        },
-        {
-          "file": "src/app/shared/ui/ui-calendar-helm/src/index.ts",
-          "hash": "5080598221786873996"
-        },
-        {
-          "file": "src/app/shared/ui/ui-calendar-helm/src/lib/hlm-calendar-multi.component.ts",
-          "hash": "5659702333950722437"
-        },
-        {
-          "file": "src/app/shared/ui/ui-calendar-helm/src/lib/hlm-calendar.component.ts",
-          "hash": "2677411641243050239"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/index.ts",
-          "hash": "2965731249143665272"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-action.directive.ts",
-          "hash": "10450325865631902282"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-content.directive.ts",
-          "hash": "7790713837517395342"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-description.directive.ts",
-          "hash": "13069839047022876154"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-footer.directive.ts",
-          "hash": "8943769292738345862"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-header.directive.ts",
-          "hash": "12731163550532877272"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-title.directive.ts",
-          "hash": "4610195246360061194"
-        },
-        {
-          "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card.directive.ts",
-          "hash": "18074843755388503920"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/index.ts",
-          "hash": "419082828947510611"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/lib/hlm-carousel-content.component.ts",
-          "hash": "6528830913080682209"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/lib/hlm-carousel-item.component.ts",
-          "hash": "4747958066240502764"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/lib/hlm-carousel-next.component.ts",
-          "hash": "1663569457978365035"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/lib/hlm-carousel-previous.component.ts",
-          "hash": "582957170206081075"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/lib/hlm-carousel-slide-display.component.ts",
-          "hash": "17351508297724888879"
-        },
-        {
-          "file": "src/app/shared/ui/ui-carousel-helm/src/lib/hlm-carousel.component.ts",
-          "hash": "3325962996876877518"
-        },
-        {
-          "file": "src/app/shared/ui/ui-checkbox-helm/src/index.ts",
-          "hash": "8707675592414440616"
-        },
-        {
-          "file": "src/app/shared/ui/ui-checkbox-helm/src/lib/hlm-checkbox.component.ts",
-          "hash": "16390236562078664205"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/index.ts",
-          "hash": "15855819063071434966"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-dialog-close-button.directive.ts",
-          "hash": "12872222274829357701"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-dialog.directive.ts",
-          "hash": "11907452599970845599"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-empty.directive.ts",
-          "hash": "6181589053409794992"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-group-label.component.ts",
-          "hash": "6968530655271561939"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-group.component.ts",
-          "hash": "2748507785529765810"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-icon.directive.ts",
-          "hash": "87445070594826812"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-item.component.ts",
-          "hash": "8140441365927769063"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-list.component.ts",
-          "hash": "7579383111298736443"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-search-input.component.ts",
-          "hash": "1310722793207493780"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-search.component.ts",
-          "hash": "454588010689605323"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-separator.component.ts",
-          "hash": "17562476187802455713"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command-shortcut.component.ts",
-          "hash": "4147935292221641412"
-        },
-        {
-          "file": "src/app/shared/ui/ui-command-helm/src/lib/hlm-command.component.ts",
-          "hash": "881449723940664665"
-        },
-        {
-          "file": "src/app/shared/ui/ui-date-picker-helm/src/index.ts",
-          "hash": "5897543250460257809"
-        },
-        {
-          "file": "src/app/shared/ui/ui-date-picker-helm/src/lib/hlm-date-picker-multi.component.ts",
-          "hash": "11753313746626578141"
-        },
-        {
-          "file": "src/app/shared/ui/ui-date-picker-helm/src/lib/hlm-date-picker-multi.token.ts",
-          "hash": "6936144603524779537"
-        },
-        {
-          "file": "src/app/shared/ui/ui-date-picker-helm/src/lib/hlm-date-picker.component.ts",
-          "hash": "6266528464794317458"
-        },
-        {
-          "file": "src/app/shared/ui/ui-date-picker-helm/src/lib/hlm-date-picker.token.ts",
-          "hash": "5081939093810712570"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/index.ts",
-          "hash": "933315377037635710"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-close.directive.ts",
-          "hash": "6817299072883905357"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-content.component.ts",
-          "hash": "9912586541377613107"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-description.directive.ts",
-          "hash": "12369000997346606727"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-footer.component.ts",
-          "hash": "17935706806658125970"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-header.component.ts",
-          "hash": "10509516341232014078"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-overlay.directive.ts",
-          "hash": "14459752369767658074"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog-title.directive.ts",
-          "hash": "3440483887850660590"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog.component.ts",
-          "hash": "15778212970116877255"
-        },
-        {
-          "file": "src/app/shared/ui/ui-dialog-helm/src/lib/hlm-dialog.service.ts",
-          "hash": "15552736847261766006"
-        },
-        {
-          "file": "src/app/shared/ui/ui-form-field-helm/src/index.ts",
-          "hash": "1379682831294187538"
-        },
-        {
-          "file": "src/app/shared/ui/ui-form-field-helm/src/lib/hlm-error.directive.ts",
-          "hash": "12891378835362712439"
-        },
-        {
-          "file": "src/app/shared/ui/ui-form-field-helm/src/lib/hlm-form-field.component.ts",
-          "hash": "13237312663814435636"
-        },
-        {
-          "file": "src/app/shared/ui/ui-form-field-helm/src/lib/hlm-hint.directive.ts",
-          "hash": "4645969772139847401"
-        },
-        {
-          "file": "src/app/shared/ui/ui-hover-card-helm/src/index.ts",
-          "hash": "8060148645644534703"
-        },
-        {
-          "file": "src/app/shared/ui/ui-hover-card-helm/src/lib/hlm-hover-card-content.component.ts",
-          "hash": "15512698281265563322"
-        },
-        {
-          "file": "src/app/shared/ui/ui-icon-helm/src/index.ts",
-          "hash": "13072002477516072914"
-        },
-        {
-          "file": "src/app/shared/ui/ui-icon-helm/src/lib/hlm-icon.directive.ts",
-          "hash": "3510781170031678997"
-        },
-        {
-          "file": "src/app/shared/ui/ui-icon-helm/src/lib/hlm-icon.token.ts",
-          "hash": "1780499468245078594"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-helm/src/index.ts",
-          "hash": "8377442368032775525"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-helm/src/lib/hlm-input-error.directive.ts",
-          "hash": "13447628399259260926"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-helm/src/lib/hlm-input.directive.ts",
-          "hash": "5555162501108591022"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-otp-helm/src/index.ts",
-          "hash": "12720853230419366273"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-otp-helm/src/lib/hlm-input-otp-fake-caret.component.ts",
-          "hash": "8808919126343054688"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-otp-helm/src/lib/hlm-input-otp-group.directive.ts",
-          "hash": "427694587544902590"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-otp-helm/src/lib/hlm-input-otp-separator.component.ts",
-          "hash": "9490156786691975551"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-otp-helm/src/lib/hlm-input-otp-slot.component.ts",
-          "hash": "10839046850100766886"
-        },
-        {
-          "file": "src/app/shared/ui/ui-input-otp-helm/src/lib/hlm-input-otp.directive.ts",
-          "hash": "1433287602971751082"
-        },
-        {
-          "file": "src/app/shared/ui/ui-label-helm/src/index.ts",
-          "hash": "11520514252818889827"
-        },
-        {
-          "file": "src/app/shared/ui/ui-label-helm/src/lib/hlm-label.directive.ts",
-          "hash": "2822941508537539426"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/index.ts",
-          "hash": "13241682308641820299"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-bar-item.directive.ts",
-          "hash": "9410333641418203236"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-bar.component.ts",
-          "hash": "2899866272029285403"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-group.component.ts",
-          "hash": "7139250545158776540"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item-check.component.ts",
-          "hash": "2335176408004490381"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item-checkbox.directive.ts",
-          "hash": "308375144088379514"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item-icon.directive.ts",
-          "hash": "3431933310216267769"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item-radio.component.ts",
-          "hash": "17850704299985716560"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item-radio.directive.ts",
-          "hash": "16753836279560552681"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item-sub-indicator.component.ts",
-          "hash": "9805163684831389900"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-item.directive.ts",
-          "hash": "12693061497147038304"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-label.component.ts",
-          "hash": "14089317233738468352"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-separator.component.ts",
-          "hash": "4922067642887236951"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu-shortcut.component.ts",
-          "hash": "287093256475444794"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-menu.component.ts",
-          "hash": "16465696237107369632"
-        },
-        {
-          "file": "src/app/shared/ui/ui-menu-helm/src/lib/hlm-sub-menu.component.ts",
-          "hash": "15771087425883141992"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/index.ts",
-          "hash": "410743135437302450"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-numbered-pagination-query-params.component.ts",
-          "hash": "2823277266357973824"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-numbered-pagination.component.ts",
-          "hash": "18182477157536512891"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination-content.directive.ts",
-          "hash": "10299603688507647158"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination-ellipsis.component.ts",
-          "hash": "143480534242530262"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination-item.directive.ts",
-          "hash": "6705315571679295730"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination-link.directive.ts",
-          "hash": "9602695669657991506"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination-next.component.ts",
-          "hash": "4286479733733970507"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination-previous.component.ts",
-          "hash": "3041295260275671964"
-        },
-        {
-          "file": "src/app/shared/ui/ui-pagination-helm/src/lib/hlm-pagination.directive.ts",
-          "hash": "7047048172589369584"
-        },
-        {
-          "file": "src/app/shared/ui/ui-popover-helm/src/index.ts",
-          "hash": "14206434168979323056"
-        },
-        {
-          "file": "src/app/shared/ui/ui-popover-helm/src/lib/hlm-popover-close.directive.ts",
-          "hash": "6921065027108518098"
-        },
-        {
-          "file": "src/app/shared/ui/ui-popover-helm/src/lib/hlm-popover-content.directive.ts",
-          "hash": "15634766142529572905"
-        },
-        {
-          "file": "src/app/shared/ui/ui-progress-helm/src/index.ts",
-          "hash": "7577513507944540644"
-        },
-        {
-          "file": "src/app/shared/ui/ui-progress-helm/src/lib/hlm-progress-indicator.directive.ts",
-          "hash": "8860711471982869362"
-        },
-        {
-          "file": "src/app/shared/ui/ui-progress-helm/src/lib/hlm-progress.directive.ts",
-          "hash": "7323154754336719758"
-        },
-        {
-          "file": "src/app/shared/ui/ui-radio-group-helm/src/index.ts",
-          "hash": "8402057214600689162"
-        },
-        {
-          "file": "src/app/shared/ui/ui-radio-group-helm/src/lib/hlm-radio-group.component.ts",
-          "hash": "2617066065166817212"
-        },
-        {
-          "file": "src/app/shared/ui/ui-radio-group-helm/src/lib/hlm-radio-indicator.component.ts",
-          "hash": "8204630452124022436"
-        },
-        {
-          "file": "src/app/shared/ui/ui-radio-group-helm/src/lib/hlm-radio.component.ts",
-          "hash": "5980988954221788546"
-        },
-        {
-          "file": "src/app/shared/ui/ui-scroll-area-helm/src/index.ts",
-          "hash": "10381852457681001058"
-        },
-        {
-          "file": "src/app/shared/ui/ui-scroll-area-helm/src/lib/hlm-scroll-area.directive.ts",
-          "hash": "11424747484582055184"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/index.ts",
-          "hash": "14018309011524926443"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-content.directive.ts",
-          "hash": "3617156234055131132"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-group.directive.ts",
-          "hash": "18354729487243533307"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-label.directive.ts",
-          "hash": "16368470853154376223"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-option.component.ts",
-          "hash": "15117720949663622090"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-scroll-down.component.ts",
-          "hash": "2044471722033183017"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-scroll-up.component.ts",
-          "hash": "14241179292025506455"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-trigger.component.ts",
-          "hash": "5397861801064238490"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-value.directive.ts",
-          "hash": "12273596253205883431"
-        },
-        {
-          "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select.directive.ts",
-          "hash": "5933711319198763352"
-        },
-        {
-          "file": "src/app/shared/ui/ui-separator-helm/src/index.ts",
-          "hash": "11009445571986260606"
-        },
-        {
-          "file": "src/app/shared/ui/ui-separator-helm/src/lib/hlm-separator.directive.ts",
-          "hash": "2464010032711328603"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/index.ts",
-          "hash": "2450176343920516083"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-close.directive.ts",
-          "hash": "5201658537051703370"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-content.component.ts",
-          "hash": "1010745982380568779"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-description.directive.ts",
-          "hash": "1105992536643153347"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-footer.component.ts",
-          "hash": "4327022888909981528"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-header.component.ts",
-          "hash": "12632193200404914229"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-overlay.directive.ts",
-          "hash": "14134397420841953082"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet-title.directive.ts",
-          "hash": "16557193595776225661"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sheet-helm/src/lib/hlm-sheet.component.ts",
-          "hash": "13978281246014208839"
-        },
-        {
-          "file": "src/app/shared/ui/ui-skeleton-helm/src/index.ts",
-          "hash": "6796198544320258219"
-        },
-        {
-          "file": "src/app/shared/ui/ui-skeleton-helm/src/lib/hlm-skeleton.component.ts",
-          "hash": "12130792473904134532"
-        },
-        {
-          "file": "src/app/shared/ui/ui-slider-helm/src/index.ts",
-          "hash": "14853643963028369995"
-        },
-        {
-          "file": "src/app/shared/ui/ui-slider-helm/src/lib/hlm-slider.component.ts",
-          "hash": "9665933994305325490"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sonner-helm/src/index.ts",
-          "hash": "3266071164489127345"
-        },
-        {
-          "file": "src/app/shared/ui/ui-sonner-helm/src/lib/hlm-toaster.component.ts",
-          "hash": "17267968514933975336"
-        },
-        {
-          "file": "src/app/shared/ui/ui-spinner-helm/src/index.ts",
-          "hash": "17343593809863372616"
-        },
-        {
-          "file": "src/app/shared/ui/ui-spinner-helm/src/lib/hlm-spinner.component.ts",
-          "hash": "16704695991338167262"
-        },
-        {
-          "file": "src/app/shared/ui/ui-switch-helm/src/index.ts",
-          "hash": "4397783043409069349"
-        },
-        {
-          "file": "src/app/shared/ui/ui-switch-helm/src/lib/hlm-switch-thumb.directive.ts",
-          "hash": "17524359964128666482"
-        },
-        {
-          "file": "src/app/shared/ui/ui-switch-helm/src/lib/hlm-switch.component.ts",
-          "hash": "4210733878731214721"
-        },
-        {
-          "file": "src/app/shared/ui/ui-table-helm/src/index.ts",
-          "hash": "2193161049644973640"
-        },
-        {
-          "file": "src/app/shared/ui/ui-table-helm/src/lib/hlm-table.directive.ts",
-          "hash": "10680595868471722302"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tabs-helm/src/index.ts",
-          "hash": "1841781438202689908"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-content.directive.ts",
-          "hash": "8927557154086463300"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-list.component.ts",
-          "hash": "4035218059572036201"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-paginated-list.component.ts",
-          "hash": "10736562458068632451"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-trigger.directive.ts",
-          "hash": "6139962748602245703"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs.component.ts",
-          "hash": "17265347345535759023"
-        },
-        {
-          "file": "src/app/shared/ui/ui-toggle-group-helm/src/index.ts",
-          "hash": "4096408199859689891"
-        },
-        {
-          "file": "src/app/shared/ui/ui-toggle-group-helm/src/lib/hlm-toggle-group.directive.ts",
-          "hash": "299518379117849307"
-        },
-        {
-          "file": "src/app/shared/ui/ui-toggle-group-helm/src/lib/hlm-toggle-group.token.ts",
-          "hash": "9128971295791982475"
-        },
-        {
-          "file": "src/app/shared/ui/ui-toggle-group-helm/src/lib/hlm-toggle-item.directive.ts",
-          "hash": "2662751830368649388"
-        },
-        {
-          "file": "src/app/shared/ui/ui-toggle-helm/src/index.ts",
-          "hash": "4922165175563535432"
-        },
-        {
-          "file": "src/app/shared/ui/ui-toggle-helm/src/lib/hlm-toggle.directive.ts",
-          "hash": "7714575771986450619"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tooltip-helm/src/index.ts",
-          "hash": "2474707846373977238"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tooltip-helm/src/lib/hlm-tooltip-trigger.directive.ts",
-          "hash": "6273952285089740647"
-        },
-        {
-          "file": "src/app/shared/ui/ui-tooltip-helm/src/lib/hlm-tooltip.component.ts",
-          "hash": "9865109726480907659"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/index.ts",
-          "hash": "16224056619972450008"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-blockquote.directive.ts",
-          "hash": "9845266537664572312"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-code.directive.ts",
-          "hash": "4094353567150245663"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-h1.directive.ts",
-          "hash": "14629505871808668805"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-h2.directive.ts",
-          "hash": "15155153456998316465"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-h3.directive.ts",
-          "hash": "7647992342755821332"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-h4.directive.ts",
-          "hash": "5905544724867281123"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-large.directive.ts",
-          "hash": "8889843073108196990"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-lead.directive.ts",
-          "hash": "1134590984291948313"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-muted.directive.ts",
-          "hash": "11684893752617917259"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-p.directive.ts",
-          "hash": "1824658197620282785"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-small.directive.ts",
-          "hash": "13852795335897844377"
-        },
-        {
-          "file": "src/app/shared/ui/ui-typography-helm/src/lib/hlm-ul.directive.ts",
-          "hash": "6648055890224845283"
-        },
-        {
-          "file": "src/app/shared/utils/chart.utils.ts",
-          "hash": "12399221952041254088"
-        },
-        {
-          "file": "src/app/shared/utils/css-vars.util.ts",
-          "hash": "16912216364137968570"
-        },
-        {
-          "file": "src/app/shared/utils/time.utils.ts",
-          "hash": "1078572502194437104"
-        },
-        {
-          "file": "src/index.html",
-          "hash": "12130600919278883940"
-        },
-        {
-          "file": "src/main.ts",
-          "hash": "15944248449879998907"
-        },
-        {
-          "file": "src/styles.css",
-          "hash": "11612445896318227292"
-        },
-        {
-          "file": "tailwind.config.js",
-          "hash": "5171252905679637488"
-        },
-        {
-          "file": "tsconfig.app.json",
-          "hash": "8369321240499881643"
-        },
-        {
-          "file": "tsconfig.json",
-          "hash": "8052426748192372485"
-        },
-        {
-          "file": "tsconfig.spec.json",
-          "hash": "647795770471502525"
-        }
-      ]
-    },
-    "nonProjectFiles": []
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "8037249353422744134"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "10175894702052279752"
+      },
+      {
+        "file": ".postcssrc.json",
+        "hash": "17460548602263189673"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "11934160580685414355"
+      },
+      {
+        "file": ".vscode/launch.json",
+        "hash": "17406702432687230417"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "hash": "10093397977228577162"
+      },
+      {
+        "file": "README.md",
+        "hash": "12509084250336144173"
+      },
+      {
+        "file": "RequestFetcher.iml",
+        "hash": "2637053897516342285"
+      },
+      {
+        "file": "angular.json",
+        "hash": "5948601966729231053"
+      },
+      {
+        "file": "components.json",
+        "hash": "1595308069860517580"
+      },
+      {
+        "file": "main.js",
+        "hash": "10308415315111518021"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "2704624109018617705"
+      },
+      {
+        "file": "package.json",
+        "hash": "6657689126064756690"
+      },
+      {
+        "file": "public/favicon.ico",
+        "hash": "3988961587069885523"
+      },
+      {
+        "file": "src/app/app.config.ts",
+        "hash": "6296454232527456247"
+      },
+      {
+        "file": "src/app/app.css",
+        "hash": "14928675326714385537"
+      },
+      {
+        "file": "src/app/app.html",
+        "hash": "14320268424510793942"
+      },
+      {
+        "file": "src/app/app.routes.ts",
+        "hash": "809736233805555256"
+      },
+      {
+        "file": "src/app/app.ts",
+        "hash": "12337714953048207687"
+      },
+      {
+        "file": "src/app/core/models/BenchmarkRun.model.ts",
+        "hash": "6112047819547516908"
+      },
+      {
+        "file": "src/app/core/models/RequestConfiguration.model.ts",
+        "hash": "14447668535079428750"
+      },
+      {
+        "file": "src/app/core/services/benchmark-history.service.ts",
+        "hash": "2231054025466780024"
+      },
+      {
+        "file": "src/app/core/services/benchmark.service.ts",
+        "hash": "5870087310991166986"
+      },
+      {
+        "file": "src/app/core/services/config.service.ts",
+        "hash": "15125501776540288951"
+      },
+      {
+        "file": "src/app/features/configuration/components/advanced-tab/advanced-tab.css",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/features/configuration/components/advanced-tab/advanced-tab.html",
+        "hash": "7181636851404975403"
+      },
+      {
+        "file": "src/app/features/configuration/components/advanced-tab/advanced-tab.ts",
+        "hash": "9673021500305775771"
+      },
+      {
+        "file": "src/app/features/configuration/components/basic-tab/basic-tab.css",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/features/configuration/components/basic-tab/basic-tab.html",
+        "hash": "14031828237176957296"
+      },
+      {
+        "file": "src/app/features/configuration/components/basic-tab/basic-tab.ts",
+        "hash": "10721522351962845386"
+      },
+      {
+        "file": "src/app/features/configuration/components/header-tab/header-tab.css",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/features/configuration/components/header-tab/headers-tab.html",
+        "hash": "13638817360958246806"
+      },
+      {
+        "file": "src/app/features/configuration/components/header-tab/headers-tab.ts",
+        "hash": "11426300253492473240"
+      },
+      {
+        "file": "src/app/features/configuration/configuration.css",
+        "hash": "2669816107796048147"
+      },
+      {
+        "file": "src/app/features/configuration/configuration.html",
+        "hash": "18165994625480187173"
+      },
+      {
+        "file": "src/app/features/configuration/configuration.ts",
+        "hash": "9037758564252471307"
+      },
+      {
+        "file": "src/app/features/history/history.css",
+        "hash": "2621596734016261870"
+      },
+      {
+        "file": "src/app/features/history/history.html",
+        "hash": "14693935654232670595"
+      },
+      {
+        "file": "src/app/features/history/history.ts",
+        "hash": "12372670413029381511"
+      },
+      {
+        "file": "src/app/features/live-logs/live-logs.css",
+        "hash": "6923185740759465712"
+      },
+      {
+        "file": "src/app/features/live-logs/live-logs.html",
+        "hash": "14461649990097205187"
+      },
+      {
+        "file": "src/app/features/live-logs/live-logs.ts",
+        "hash": "8519260232273701698"
+      },
+      {
+        "file": "src/app/features/response-chart/response-chart.css",
+        "hash": "7831184384296306240"
+      },
+      {
+        "file": "src/app/features/response-chart/response-chart.html",
+        "hash": "18425355376446371224"
+      },
+      {
+        "file": "src/app/features/response-chart/response-chart.ts",
+        "hash": "5062405405194561506"
+      },
+      {
+        "file": "src/app/shared/ui/ui-badge-helm/src/index.ts",
+        "hash": "6156629311968503913"
+      },
+      {
+        "file": "src/app/shared/ui/ui-badge-helm/src/lib/hlm-badge.directive.ts",
+        "hash": "4001444761556944107"
+      },
+      {
+        "file": "src/app/shared/ui/ui-button-helm/src/index.ts",
+        "hash": "1172790725020474104"
+      },
+      {
+        "file": "src/app/shared/ui/ui-button-helm/src/lib/hlm-button.directive.ts",
+        "hash": "7030409177781286625"
+      },
+      {
+        "file": "src/app/shared/ui/ui-button-helm/src/lib/hlm-button.token.ts",
+        "hash": "7896754714560199098"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/index.ts",
+        "hash": "2965731249143665272"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-action.directive.ts",
+        "hash": "10450325865631902282"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-content.directive.ts",
+        "hash": "7790713837517395342"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-description.directive.ts",
+        "hash": "13069839047022876154"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-footer.directive.ts",
+        "hash": "8943769292738345862"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-header.directive.ts",
+        "hash": "12731163550532877272"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card-title.directive.ts",
+        "hash": "4610195246360061194"
+      },
+      {
+        "file": "src/app/shared/ui/ui-card-helm/src/lib/hlm-card.directive.ts",
+        "hash": "18074843755388503920"
+      },
+      {
+        "file": "src/app/shared/ui/ui-checkbox-helm/src/index.ts",
+        "hash": "8707675592414440616"
+      },
+      {
+        "file": "src/app/shared/ui/ui-checkbox-helm/src/lib/hlm-checkbox.component.ts",
+        "hash": "8720434574007890197"
+      },
+      {
+        "file": "src/app/shared/ui/ui-icon-helm/src/index.ts",
+        "hash": "13072002477516072914"
+      },
+      {
+        "file": "src/app/shared/ui/ui-icon-helm/src/lib/hlm-icon.directive.ts",
+        "hash": "3510781170031678997"
+      },
+      {
+        "file": "src/app/shared/ui/ui-icon-helm/src/lib/hlm-icon.token.ts",
+        "hash": "1780499468245078594"
+      },
+      {
+        "file": "src/app/shared/ui/ui-input-helm/src/index.ts",
+        "hash": "8377442368032775525"
+      },
+      {
+        "file": "src/app/shared/ui/ui-input-helm/src/lib/hlm-input-error.directive.ts",
+        "hash": "13447628399259260926"
+      },
+      {
+        "file": "src/app/shared/ui/ui-input-helm/src/lib/hlm-input.directive.ts",
+        "hash": "2937208043737220697"
+      },
+      {
+        "file": "src/app/shared/ui/ui-label-helm/src/index.ts",
+        "hash": "11520514252818889827"
+      },
+      {
+        "file": "src/app/shared/ui/ui-label-helm/src/lib/hlm-label.directive.ts",
+        "hash": "2822941508537539426"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/index.ts",
+        "hash": "14018309011524926443"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-content.directive.ts",
+        "hash": "3617156234055131132"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-group.directive.ts",
+        "hash": "18354729487243533307"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-label.directive.ts",
+        "hash": "9361420981299883995"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-option.component.ts",
+        "hash": "15117720949663622090"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-scroll-down.component.ts",
+        "hash": "2044471722033183017"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-scroll-up.component.ts",
+        "hash": "14241179292025506455"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-trigger.component.ts",
+        "hash": "2619488601669774319"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select-value.directive.ts",
+        "hash": "12273596253205883431"
+      },
+      {
+        "file": "src/app/shared/ui/ui-select-helm/src/lib/hlm-select.directive.ts",
+        "hash": "5933711319198763352"
+      },
+      {
+        "file": "src/app/shared/ui/ui-switch-helm/src/index.ts",
+        "hash": "4397783043409069349"
+      },
+      {
+        "file": "src/app/shared/ui/ui-switch-helm/src/lib/hlm-switch-thumb.directive.ts",
+        "hash": "17524359964128666482"
+      },
+      {
+        "file": "src/app/shared/ui/ui-switch-helm/src/lib/hlm-switch.component.ts",
+        "hash": "4210733878731214721"
+      },
+      {
+        "file": "src/app/shared/ui/ui-tabs-helm/src/index.ts",
+        "hash": "1841781438202689908"
+      },
+      {
+        "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-content.directive.ts",
+        "hash": "5002037254402513764"
+      },
+      {
+        "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-list.component.ts",
+        "hash": "13798198028805542466"
+      },
+      {
+        "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-paginated-list.component.ts",
+        "hash": "1354827348387764692"
+      },
+      {
+        "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs-trigger.directive.ts",
+        "hash": "6139962748602245703"
+      },
+      {
+        "file": "src/app/shared/ui/ui-tabs-helm/src/lib/hlm-tabs.component.ts",
+        "hash": "17265347345535759023"
+      },
+      {
+        "file": "src/app/shared/utils/chart.utils.ts",
+        "hash": "17059606629217461392"
+      },
+      {
+        "file": "src/app/shared/utils/css-vars.util.ts",
+        "hash": "3053285686132072073"
+      },
+      {
+        "file": "src/app/shared/utils/time.utils.ts",
+        "hash": "16996059182283417871"
+      },
+      {
+        "file": "src/index.html",
+        "hash": "741658637557620965"
+      },
+      {
+        "file": "src/main.ts",
+        "hash": "3955121875106202818"
+      },
+      {
+        "file": "src/styles.css",
+        "hash": "7959141849361463283"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "9381719151128218693"
+      },
+      {
+        "file": "tsconfig.app.json",
+        "hash": "10136459155298117738"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "9133989581724030464"
+      },
+      {
+        "file": "tsconfig.spec.json",
+        "hash": "15504553596141903120"
+      }
+    ]
   }
 }

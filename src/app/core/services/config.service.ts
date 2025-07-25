@@ -12,7 +12,7 @@ export class ConfigService {
     timeout: 5000,
     warmupRequest: false,
     followRedirects: true,
-    asyncMode: true,
+    asyncMode: false,
     concurrentLimit: 5,
     randomDelay: false,
     maxRetries: 0,

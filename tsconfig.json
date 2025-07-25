@@ -36,6 +36,12 @@
       ],
       "@spartan-ng/helm/icon": [
         "./src/app/shared/ui/ui-icon-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/tabs": [
+        "./src/app/shared/ui/ui-tabs-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/select": [
+        "./src/app/shared/ui/ui-select-helm/src/index.ts"
       ]
     }
   },

@@ -1,0 +1,26 @@
+:host{
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+
+.form-field{
+  label{
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+}
+
+.toggle-field,
+.form-container{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.toggle-field{
+  justify-content: space-between;
+}
