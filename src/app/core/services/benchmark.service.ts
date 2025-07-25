@@ -199,7 +199,7 @@ export class BenchmarkService {
           responseType: 'text',
           observe: 'response',
           headers: config.customHeaders,
-          withCredentials: true,
+          withCredentials: requiresCredentials,
         })
       );
 
