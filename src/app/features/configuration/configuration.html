@@ -13,108 +13,20 @@
       <hlm-tabs-trigger value="headers">Headers</hlm-tabs-trigger>
     </hlm-tabs-list>
     <hlm-tabs-content value="basic" class="tab-content">
-      <div class="form-field">
-        <label hlmLabel for="target-url">Target URL</label>
-        <input hlmInput id="target-url" type="url" [(ngModel)]="targetUrl" placeholder="https://example.com" />
-      </div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label hlmLabel for="requests">Requests</label>
-          <input hlmInput id="requests" type="number" [(ngModel)]="requests" min="1" />
-        </div>
-        <div class="form-field">
-          <label hlmLabel for="interval">Interval (s)</label>
-          <input hlmInput id="interval" type="number" [(ngModel)]="interval" min="0" step="0.1" />
-        </div>
-      </div>
-      <div class="form-field">
-        <label hlmLabel for="method">HTTP Method</label>
-        <select hlmInput id="method" [(ngModel)]="method">
-          <option>GET</option>
-          <option>POST</option>
-          <option>PUT</option>
-          <option>DELETE</option>
-        </select>
-      </div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label hlmLabel for="timeout">Timeout (ms)</label>
-          <input hlmInput id="timeout" type="number" [(ngModel)]="timeout" min="0" />
-        </div>
-        <div class="toggle-field">
-          <label hlmLabel for="warmup-request">Warm-up Request</label>
-          <hlm-switch id="warmup-request" [(ngModel)]="warmupRequest"></hlm-switch>
-        </div>
-        <div class="toggle-field">
-          <label hlmLabel for="follow">Follow Redirects</label>
-          <hlm-switch id="follow" [(ngModel)]="followRedirects"></hlm-switch>
-        </div>
-      </div>
+      <basic-tab />
     </hlm-tabs-content>
     <hlm-tabs-content value="advanced" class="tab-content">
-      <div class="toggle-field">
-        <label hlmLabel for="async">Async Mode</label>
-        <hlm-switch id="async" [(ngModel)]="asyncMode"></hlm-switch>
-      </div>
-      <div class="form-field">
-        <label hlmLabel for="limit">Concurrent Limit</label>
-        <input hlmInput id="limit" type="number" [(ngModel)]="concurrentLimit" min="1" />
-      </div>
-      <div class="toggle-field">
-        <label hlmLabel for="random">Random Delay</label>
-        <hlm-switch id="random" [(ngModel)]="randomDelay"></hlm-switch>
-      </div>
-      <div class="form-field">
-        <label hlmLabel for="retries">Max Retries</label>
-        <input hlmInput id="retries" type="number" [(ngModel)]="maxRetries" min="0" />
-      </div>
-      <div class="form-field">
-        <label hlmLabel for="ct">Content-Type</label>
-        <select hlmInput id="ct" [(ngModel)]="contentType">
-          <option value="application/json">application/json</option>
-          <option value="text/plain">text/plain</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label hlmLabel for="auth">Authentication</label>
-        <select hlmInput id="auth" [(ngModel)]="authentication">
-          <option value="none">None</option>
-          <option value="basic">Basic</option>
-          <option value="bearer">Bearer</option>
-        </select>
-      </div>
-      @if (authentication() === 'basic') {
-        <div class="form-field">
-          <label hlmLabel for="user">Username</label>
-          <input hlmInput id="user" [(ngModel)]="authUsername" />
-        </div>
-        <div class="form-field">
-          <label hlmLabel for="pass">Password</label>
-          <input hlmInput id="pass" type="password" [(ngModel)]="authPassword" />
-        </div>
-      } @else if (authentication() === 'bearer') {
-        <div class="form-field">
-          <label hlmLabel for="token">Token</label>
-          <input hlmInput id="token" [(ngModel)]="authToken" />
-        </div>
-      }
+      <advanced-tab />
     </hlm-tabs-content>
     <hlm-tabs-content value="headers" class="tab-content">
-      <div class="flex flex-col gap-2">
-        @for (let i = 0; i < headers().length; i++) {
-          <div class="flex gap-2 items-center">
-            <input hlmInput class="flex-1" placeholder="Name" [(ngModel)]="headers()[i].name" (ngModelChange)="syncHeaders()" />
-            <input hlmInput class="flex-1" placeholder="Value" [(ngModel)]="headers()[i].value" (ngModelChange)="syncHeaders()" />
-            <button hlmBtn variant="outline" (click)="removeHeader(i)">Remove</button>
-          </div>
-        }
-        <button hlmBtn variant="secondary" (click)="addHeader()">Add Header</button>
-      </div>
+      <headers-tab />
     </hlm-tabs-content>
   </hlm-tabs>
   <div class="p-4">
     <button hlmBtn class="submit-button" variant="default" (click)="startBenchmark()" [disabled]="!isValidConfiguration()">Start Requests</button>
-    <button *ngIf="isRunning()" hlmBtn variant="outline" class="submit-button" (click)="stopBenchmark()">Stop</button>
+    @if (isRunning()) {
+      <button hlmBtn variant="outline" class="submit-button" (click)="stopBenchmark()">Stop</button>
+    }
   </div>
   <div class="p-4">
     <textarea hlmInput readonly disabled [value]="benchmark.systemLog().join('\n')" class="log-area"></textarea>

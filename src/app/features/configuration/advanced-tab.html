@@ -1,0 +1,64 @@
+<div class="toggle-field">
+  <label hlmLabel for="async">Async Mode</label>
+  <hlm-switch id="async"
+    [ngModel]="cfg().asyncMode"
+    (ngModelChange)="update('asyncMode', $event)"></hlm-switch>
+</div>
+<div class="form-field">
+  <label hlmLabel for="limit">Concurrent Limit</label>
+  <input hlmInput id="limit" type="number" min="1"
+    [ngModel]="cfg().concurrentLimit"
+    (ngModelChange)="update('concurrentLimit', $event)" />
+</div>
+<div class="toggle-field">
+  <label hlmLabel for="random">Random Delay</label>
+  <hlm-switch id="random"
+    [ngModel]="cfg().randomDelay"
+    (ngModelChange)="update('randomDelay', $event)"></hlm-switch>
+</div>
+<div class="form-field">
+  <label hlmLabel for="retries">Max Retries</label>
+  <input hlmInput id="retries" type="number" min="0"
+    [ngModel]="cfg().maxRetries"
+    (ngModelChange)="update('maxRetries', $event)" />
+</div>
+<div class="form-field">
+  <label hlmLabel for="ct">Content-Type</label>
+  <select hlmInput id="ct"
+    [ngModel]="cfg().contentType"
+    (ngModelChange)="update('contentType', $event)">
+    <option value="application/json">application/json</option>
+    <option value="text/plain">text/plain</option>
+  </select>
+</div>
+<div class="form-field">
+  <label hlmLabel for="auth">Authentication</label>
+  <select hlmInput id="auth"
+    [ngModel]="cfg().authentication"
+    (ngModelChange)="update('authentication', $event)">
+    <option value="none">None</option>
+    <option value="basic">Basic</option>
+    <option value="bearer">Bearer</option>
+  </select>
+</div>
+@if (cfg().authentication === 'basic') {
+  <div class="form-field">
+    <label hlmLabel for="user">Username</label>
+    <input hlmInput id="user"
+      [ngModel]="cfg().authUsername"
+      (ngModelChange)="update('authUsername', $event)" />
+  </div>
+  <div class="form-field">
+    <label hlmLabel for="pass">Password</label>
+    <input hlmInput id="pass" type="password"
+      [ngModel]="cfg().authPassword"
+      (ngModelChange)="update('authPassword', $event)" />
+  </div>
+} @else if (cfg().authentication === 'bearer') {
+  <div class="form-field">
+    <label hlmLabel for="token">Token</label>
+    <input hlmInput id="token"
+      [ngModel]="cfg().authToken"
+      (ngModelChange)="update('authToken', $event)" />
+  </div>
+}
