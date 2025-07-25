@@ -1,7 +1,8 @@
-import {Component, computed, effect, ElementRef, inject, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, computed, effect, ElementRef, inject, QueryList, ViewChild, ViewChildren, ReadonlySignal} from '@angular/core';
 import {HlmCardDirective, HlmCardHeaderDirective, HlmCardImports} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
 import {BenchmarkService} from '../../core/services/benchmark.service';
+import {LogEntry} from '../../core/models/LogEntry.model';
 
 @Component({
   selector: 'live-logs',
@@ -19,7 +20,7 @@ export class LiveLogs {
   @ViewChildren('logItem') logItems!: QueryList<ElementRef>;
 
   private readonly benchmark = inject(BenchmarkService);
-  logs = this.benchmark.systemLog;
+  logs: ReadonlySignal<LogEntry[]> = this.benchmark.systemLog;
   hasLogs = computed(() => this.logs().length > 0);
 
   constructor() {

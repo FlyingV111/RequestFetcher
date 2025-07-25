@@ -6,8 +6,12 @@
 
   <div #scrollframe class="log-window log-text" [class.has-logs]="hasLogs()" hlmCardContent>
     @if (hasLogs()) {
-      @for (entry of logs(); track $index; let last = $last) {
-        <div [attr.data-last]="last ? true : null" #logItem>{{ entry }}</div>
+    @for (entry of logs(); track $index; let last = $last) {
+        <div
+          [attr.data-last]="last ? true : null"
+          #logItem
+          [style.color]="entry.color ?? null"
+        >{{ entry.message }}</div>
       }
     }
   </div>

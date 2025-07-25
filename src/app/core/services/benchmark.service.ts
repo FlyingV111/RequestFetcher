@@ -5,6 +5,7 @@ import {RequestConfiguration} from '../models/RequestConfiguration.model';
 import {BenchmarkRun} from '../models/BenchmarkRun.model';
 import {BenchmarkHistoryService} from './benchmark-history.service';
 import {ConfigService} from './config.service';
+import {LogEntry} from '../models/LogEntry.model';
 
 @Injectable({providedIn: 'root'})
 export class BenchmarkService {
@@ -14,7 +15,7 @@ export class BenchmarkService {
 
   private readonly requestDurations = signal<number[]>([]);
   private readonly isBenchmarkRunning = signal(false);
-  private readonly executionLog = signal<string[]>([]);
+  private readonly executionLog = signal<LogEntry[]>([]);
   private readonly activeRunId = signal<string | null>(null);
 
   private shouldStopExecution = false;
@@ -91,11 +92,13 @@ export class BenchmarkService {
   private loadRunResults(benchmarkRun: BenchmarkRun): void {
     this.requestDurations.set(benchmarkRun.results);
     this.executionLog.set(
-      benchmarkRun.results.map((result, index) =>
-        result === -1
-          ? `> Request ${index + 1} fehlgeschlagen`
-          : `> Request ${index + 1} erfolgreich in ${result}ms`
-      )
+      benchmarkRun.results.map((result, index) => ({
+        message:
+          result === -1
+            ? `> Request ${index + 1} fehlgeschlagen`
+            : `> Request ${index + 1} erfolgreich in ${result}ms`,
+        color: result === -1 ? 'red' : undefined,
+      }))
     );
   }
 
@@ -116,7 +119,10 @@ export class BenchmarkService {
       await this.sendSingleRequest(-1, config);
       this.addLogEntry('---------------------------------------------');
     } catch {
-      this.addLogEntry("> Warnung: Warmup-Request fehlgeschlagen, Benchmark wird fortgesetzt");
+      this.addLogEntry(
+        '> Warnung: Warmup-Request fehlgeschlagen, Benchmark wird fortgesetzt',
+        {type: 'warning'}
+      );
     }
   }
 
@@ -217,7 +223,7 @@ export class BenchmarkService {
         errorMessage = error.message;
       }
 
-      this.addLogEntry(`[${timestamp}] ❌ Request failed: ${errorMessage}`);
+      this.addLogEntry(`[${timestamp}] ❌ Request failed: ${errorMessage}`, {type: 'error'});
       console.error(`Request ${requestIndex + 1} failed:`, error);
     }
   }
@@ -237,8 +243,29 @@ export class BenchmarkService {
     this.requestDurations.set(currentDurations);
   }
 
-  private addLogEntry(logEntry: string): void {
-    this.executionLog.update(currentLog => [...currentLog, logEntry]);
+  private addLogEntry(
+    message: string,
+    opts?: {type?: 'warning' | 'error' | 'custom'; color?: string}
+  ): void {
+    let color: string | undefined;
+    if (opts?.type === 'warning') {
+      color = 'orange';
+    } else if (opts?.type === 'error') {
+      color = 'red';
+    } else if (opts?.type === 'custom' && opts.color) {
+      color = opts.color;
+    }
+
+    if (color) {
+      console.log(`%c${message}`, `color: ${color}`);
+    } else {
+      console.log(message);
+    }
+
+    this.executionLog.update(currentLog => [
+      ...currentLog,
+      {message, color},
+    ]);
   }
 
   private updateHistoryEntry(config: RequestConfiguration, runId: string): void {
