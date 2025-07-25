@@ -72,76 +72,83 @@ export class BenchmarkService {
       this.historyService.addRun({config, results: [], timestamp: ts});
     }
 
-    const headers = this.parseHeaders(config.customHeaders);
+    const headers = config.customHeaders;
 
-    const executeRequest = async (index: number): Promise<void> => {
+    const sendOnce = async (index: number): Promise<void> => {
       const start = performance.now();
+      this.appendLog(`[${new Date().toLocaleTimeString()}] Sending ${config.method} ${config.targetUrl}`);
       try {
         const res = await firstValueFrom(
           this.http.request(config.method, config.targetUrl, {
             responseType: 'text',
             observe: 'response',
             headers,
-            withCredentials: true
+            withCredentials: true,
           })
         );
-        if (res.status < 200 || res.status >= 300) {
-          throw new Error(`${res.status} ${res.statusText}`);
-        }
         const dur = Math.round(performance.now() - start);
         this.updateDuration(index, dur);
-        this.appendLog(`> Request ${index + 1} erfolgreich in ${dur}ms`);
+        this.appendLog(`[${new Date().toLocaleTimeString()}] \u2705 Response ${res.status} ${res.statusText} (${dur} ms)`);
       } catch (err: any) {
         this.updateDuration(index, -1);
-
-        const message =
-          err?.status
-            ? `${err.status} ${err.statusText}`
-            : err instanceof TypeError && err.message?.includes('fetch')
-              ? 'CORS-Fehler oder Netzwerkfehler'
-              : err?.message ?? 'Unbekannter Fehler';
-
+        const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Error';
+        this.appendLog(`[${new Date().toLocaleTimeString()}] \u274C Request failed: ${message}`);
         console.error(`Request ${index + 1} failed:`, err);
-        this.appendLog(`> Request ${index + 1} fehlgeschlagen (${message})`);
       }
     };
 
     const runAsync = async (): Promise<void> => {
       if (config.warmupRequest) {
         try {
-          const res = await firstValueFrom(
-            this.http.request(config.method, config.targetUrl, {
-              responseType: 'text',
-              observe: 'response',
-              headers
-            })
-          );
-          if (res.status < 200 || res.status >= 300) {
-            throw {status: res.status, statusText: res.statusText};
-          }
-          this.appendLog('> Warmup erfolgreich');
-        } catch (err: any) {
-          const message = err?.status ? `${err.status} ${err.statusText}` : err?.message ?? 'Fehler';
-          this.appendLog(`> Warmup fehlgeschlagen (${message})`);
-        }
-        this.appendLog('=============================================');
+          await sendOnce(-1);
+          this.appendLog('---------------------------------------------');
+        } catch {}
       }
 
-      for (let i = startIndex; i < config.requests; i++) {
-        if (this.stopRequested) break;
-        await executeRequest(i);
+      const queue = Array.from({ length: config.requests - startIndex }, (_, i) => i + startIndex);
+      let active = 0;
+      const next = async (): Promise<void> => {
+        if (this.stopRequested || !queue.length) return;
+        const i = queue.shift()!;
+        active++;
+        for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
+          await sendOnce(i);
+          if (!this.stopRequested) break;
+        }
+        active--;
         this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
-        if (this.stopRequested) break;
-        if (i < config.requests - 1) {
-          await new Promise(resolve => setTimeout(resolve, config.interval * 1000));
+        if (!queue.length && active === 0) return done();
+        if (config.asyncMode) {
+          next();
         }
-      }
+      };
 
-      this.runningSignal.set(false);
-      this.appendLog('=============================================');
-      this.appendLog('> Benchmark abgeschlossen');
-      this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
-      this.currentRunSignal.set(null);
+      const done = () => {
+        this.runningSignal.set(false);
+        this.appendLog('---------------------------------------------');
+        this.appendLog('> Benchmark abgeschlossen');
+        this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
+        this.currentRunSignal.set(null);
+      };
+
+      if (config.asyncMode) {
+        const limit = Math.max(1, config.concurrentLimit);
+        for (let i = 0; i < limit && queue.length; i++) {
+          void next();
+        }
+      } else {
+        for (const i of queue) {
+          if (this.stopRequested) break;
+          await sendOnce(i);
+          this.historyService.updateRun({config, results: this.durationsSignal(), timestamp: ts});
+          if (this.stopRequested) break;
+          if (i < config.requests - 1) {
+            const delay = config.randomDelay ? Math.random() * config.interval * 1000 : config.interval * 1000;
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+        }
+        done();
+      }
     };
 
     runAsync();
@@ -156,16 +163,6 @@ export class BenchmarkService {
 
   private appendLog(entry: string): void {
     this.logSignal.update(log => [...log, entry]);
-  }
-
-  private parseHeaders(raw: string): Record<string, string> | undefined {
-    const headers: Record<string, string> = {};
-    raw.split(/\n+/).forEach(line => {
-      const [name, ...rest] = line.split(':');
-      if (!name) return;
-      headers[name.trim()] = rest.join(':').trim();
-    });
-    return Object.keys(headers).length ? headers : undefined;
   }
 
   loadRun(benchmarkRun: BenchmarkRun): void {

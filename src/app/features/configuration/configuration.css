@@ -11,10 +11,12 @@
   }
 }
 
-.config-content {
+
+.tab-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .form-field {
@@ -57,9 +59,10 @@
   width: 100%;
 }
 
-.custom-editor textarea {
+
+.log-area {
   width: 100%;
-  min-height: 8rem;
-  font-family: monospace;
+  min-height: 10rem;
+  font-family: ui-monospace, monospace;
 }
 
