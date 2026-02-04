@@ -1,18 +1,18 @@
 import {Component, inject, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HlmInputDirective} from '@spartan-ng/helm/input';
-import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {ConfigService} from '../../../../core/services/config.service';
 import {LucideAngularModule} from 'lucide-angular';
+import {HlmInputImports} from '@spartan-ng/helm/input';
+import {HlmButtonImports} from '@spartan-ng/helm/button';
 
 @Component({
   selector: 'headers-tab',
   standalone: true,
   imports: [
     FormsModule,
-    HlmInputDirective,
-    HlmButtonDirective,
-    LucideAngularModule
+    LucideAngularModule,
+    HlmInputImports,
+    HlmButtonImports
   ],
   templateUrl: './headers-tab.html',
   styleUrl: './header-tab.css',

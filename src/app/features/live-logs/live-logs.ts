@@ -1,24 +1,11 @@
-import {
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  inject,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-  WritableSignal
-} from '@angular/core';
-import {HlmCardDirective, HlmCardHeaderDirective, HlmCardImports} from '@spartan-ng/helm/card';
+import {Component, computed, effect, ElementRef, inject, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {LucideAngularModule} from 'lucide-angular';
 import {BenchmarkService} from '../../core/services/benchmark.service';
-import {LogEntry} from '../../core/models/LogEntry.model';
+import {HlmCardImports} from '@spartan-ng/helm/card';
 
 @Component({
   selector: 'live-logs',
   imports: [
-    HlmCardDirective,
-    HlmCardHeaderDirective,
     HlmCardImports,
     LucideAngularModule
   ],

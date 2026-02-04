@@ -1,5 +1,4 @@
 import {Component, effect, inject} from '@angular/core';
-import {HlmButtonDirective} from '@spartan-ng/helm/button';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {HlmTabsImports} from '@spartan-ng/helm/tabs';
 import {LucideAngularModule} from 'lucide-angular';
@@ -9,17 +8,18 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BasicTab} from './components/basic-tab/basic-tab';
 import {AdvancedTab} from './components/advanced-tab/advanced-tab';
 import {HeadersTab} from './components/header-tab/headers-tab';
+import {HlmButtonImports} from '@spartan-ng/helm/button';
 
 @Component({
   selector: 'configuration',
   imports: [
-    HlmButtonDirective,
     HlmCardImports,
     LucideAngularModule,
     HlmTabsImports,
     BasicTab,
     AdvancedTab,
-    HeadersTab
+    HeadersTab,
+    HlmButtonImports
   ],
   templateUrl: './configuration.html',
   styleUrl: './configuration.css'
@@ -48,14 +48,18 @@ export class Configuration {
 
   isValidConfiguration(): boolean {
     const cfg = this.cfg();
-    const url = cfg.targetUrl;
+    const url = cfg.targetUrl?.trim();
     const method = cfg.method.trim();
     const reqs = cfg.requests;
     const int = cfg.interval;
     const limit = cfg.concurrentLimit;
 
+    const isRelativeApiPath = typeof url === 'string' && url.startsWith('/');
+
     try {
-      new URL(url);
+      if (!isRelativeApiPath) {
+        new URL(url);
+      }
       return reqs > 0 && int > 0 && method.length > 0 && (!cfg.asyncMode || limit > 0);
     } catch {
       return false;
@@ -81,4 +85,3 @@ export class Configuration {
     }
   }
 }
-

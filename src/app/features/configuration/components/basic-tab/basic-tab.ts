@@ -1,23 +1,24 @@
 import {Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HlmInputDirective} from '@spartan-ng/helm/input';
-import {HlmLabelDirective} from '@spartan-ng/helm/label';
 import {HlmSwitchImports} from '@spartan-ng/helm/switch';
 import {ConfigService} from '../../../../core/services/config.service';
 import {RequestConfiguration} from '../../../../core/models/RequestConfiguration.model';
-import {BrnSelectImports} from '@spartan-ng/brain/select';
+import {BrnSelect, BrnSelectImports} from '@spartan-ng/brain/select';
 import {HlmSelectImports} from '@spartan-ng/helm/select';
+import {HlmInputImports} from '@spartan-ng/helm/input';
+import {HlmLabelImports} from '@spartan-ng/helm/label';
 
 @Component({
   selector: 'basic-tab',
   standalone: true,
   imports: [
     FormsModule,
-    HlmInputDirective,
-    HlmLabelDirective,
     HlmSwitchImports,
     BrnSelectImports,
     HlmSelectImports,
+    BrnSelect,
+    HlmInputImports,
+    HlmLabelImports,
   ],
   templateUrl: './basic-tab.html',
   styleUrl: './basic-tab.css'

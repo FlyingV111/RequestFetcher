@@ -1,5 +1,5 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {RequestConfiguration} from '../models/RequestConfiguration.model';
 import {BenchmarkRun} from '../models/BenchmarkRun.model';
@@ -191,14 +191,41 @@ export class BenchmarkService {
     const startTime = performance.now();
     const timestamp = new Date().toLocaleTimeString();
 
-    this.addLogEntry(`[${timestamp}] Sending ${config.method} ${config.targetUrl}`);
+    const rawUrl = (config.targetUrl ?? '').trim();
+    const isAbsoluteUrl = /^https?:\/\//i.test(rawUrl);
+
+    const effectiveUrl = isAbsoluteUrl ? '/api/proxy' : rawUrl;
+
+    this.addLogEntry(`[${timestamp}] Sending ${config.method} ${rawUrl}`);
+
     const requiresCredentials = config.authentication === 'basic';
+
+    // Headers vorbereiten (Custom Headers + Proxy-Header wenn nötig)
+    let headers = new HttpHeaders(config.customHeaders ?? {});
+
+    if (isAbsoluteUrl) {
+      headers = headers
+        .set('X-Target-URL', rawUrl)
+        .set('X-Target-Method', (config.method ?? 'GET').toUpperCase())
+        .set('X-Timeout', String(Math.max(1, Math.round((config.timeout ?? 30000) / 1000))))
+        .set('X-Follow-Redirects', String(config.followRedirects));
+
+      // Auth in Proxy-Header abbilden (Backend übernimmt das)
+      if (config.authentication === 'bearer' && config.authToken) {
+        headers = headers.set('X-Auth-Header', `Bearer ${config.authToken}`);
+      } else if (config.authentication === 'basic' && config.authUsername) {
+        // Basic Auth lieber am Proxy terminieren, damit es nicht vom Browser blockiert wird
+        const token = btoa(`${config.authUsername}:${config.authPassword ?? ''}`);
+        headers = headers.set('X-Auth-Header', `Basic ${token}`);
+      }
+    }
+
     try {
       const response = await firstValueFrom(
-        this.httpClient.request(config.method, config.targetUrl, {
+        this.httpClient.request(config.method, effectiveUrl, {
           responseType: 'text',
           observe: 'response',
-          headers: config.customHeaders,
+          headers,
           withCredentials: requiresCredentials,
         })
       );
@@ -216,7 +243,7 @@ export class BenchmarkService {
       const isHttpError = error?.status !== undefined;
 
       if (error?.status === 0) {
-        errorMessage = ` - Netzwerkfehler oder CORS-Verstoß bei ${config.targetUrl}`;
+        errorMessage = ` - Netzwerkfehler oder CORS-Verstoß bei ${rawUrl}`;
       } else if (isHttpError) {
         errorMessage = `${error.status} ${error.statusText}`;
       } else if (error?.message) {

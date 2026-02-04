@@ -3,14 +3,14 @@ import {Configuration} from './features/configuration/configuration';
 import {ResponseChart} from './features/response-chart/response-chart';
 import {LiveLogs} from './features/live-logs/live-logs';
 import {History} from './features/history/history';
-import {HlmCardDirective} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
 import {NgClass, NgStyle} from '@angular/common';
 import {BenchmarkService} from './core/services/benchmark.service';
+import {HlmCardImports} from '@spartan-ng/helm/card';
 
 @Component({
   selector: 'app-root',
-  imports: [Configuration, ResponseChart, LiveLogs, History, HlmCardDirective, LucideAngularModule, NgClass, NgStyle],
+  imports: [Configuration, ResponseChart, LiveLogs, History, LucideAngularModule, NgClass, NgStyle, HlmCardImports],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

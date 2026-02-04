@@ -2,12 +2,12 @@ import {Component, inject} from '@angular/core';
 import {HlmCardImports} from '@spartan-ng/helm/card';
 import {LucideAngularModule} from 'lucide-angular';
 import {HlmBadgeImports} from '@spartan-ng/helm/badge';
-import {HlmButtonDirective} from '@spartan-ng/helm/button';
-import {HlmInputDirective} from '@spartan-ng/helm/input';
 import {BenchmarkHistoryService} from '../../core/services/benchmark-history.service';
 import {BenchmarkRun} from '../../core/models/BenchmarkRun.model';
 import {BenchmarkService} from '../../core/services/benchmark.service';
 import {NgClass} from '@angular/common';
+import {HlmButtonImports} from '@spartan-ng/helm/button';
+import {HlmInputImports} from '@spartan-ng/helm/input';
 
 @Component({
   selector: 'history',
@@ -15,9 +15,9 @@ import {NgClass} from '@angular/common';
     HlmCardImports,
     LucideAngularModule,
     HlmBadgeImports,
-    HlmButtonDirective,
-    HlmInputDirective,
-    NgClass
+    NgClass,
+    HlmButtonImports,
+    HlmInputImports
   ],
   templateUrl: './history.html',
   styleUrl: './history.css'
