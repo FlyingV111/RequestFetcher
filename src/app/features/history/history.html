@@ -1,0 +1,38 @@
+<section hlmCard class="test-history">
+  <header hlmCardHeader>
+    <div class="header-content">
+      <lucide-icon name="history" size="20"></lucide-icon>
+      <h2 hlmCardTitle>Test History</h2>
+    </div>
+    <p hlmCardDescription>
+      Previous benchmark runs
+    </p>
+  </header>
+  <div hlmCardContent class="history-content">
+    <div class="history-list">
+      @for (run of benchmarkResults(); track run.timestamp) {
+        <div hlmCard class="history-item" (click)="loadRun(run)" [ngClass]="hasErrors(run) ? 'error' : 'success'">
+
+          <div class="request-header">
+            <span hlmBadge>{{ run.config.requests }} reqs</span>
+            <button hlmBtn variant="ghost" size="icon" (click)="deleteRun(run.timestamp); $event.stopPropagation()">
+              <lucide-icon name="trash" size="16"></lucide-icon>
+            </button>
+          </div>
+          <div class="request-info">
+            <input hlmInput type="text" placeholder="{{ run.config.targetUrl }}" readonly />
+            <button hlmBtn variant="secondary" size="icon" (click)="copyUrl(run.config.targetUrl); $event.stopPropagation()">
+              <lucide-icon name="copy" size="16"></lucide-icon>
+            </button>
+          </div>
+          <span>Avg: {{ average(run) }}ms</span>
+        </div>
+      } @empty {
+        <div class="empty-state text-muted-foreground">
+          <p>No benchmark results yet</p>
+          <small>Run your first benchmark to see results here</small>
+        </div>
+      }
+    </div>
+  </div>
+</section>

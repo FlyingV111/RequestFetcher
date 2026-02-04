@@ -1,0 +1,33 @@
+:host {
+  height: 100%;
+  overflow: hidden;
+}
+
+.benchmark-config {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  gap: 1rem;
+  padding: 1.5rem;
+  overflow: hidden;
+
+  header {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  header h2{
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+  }
+
+  .tab-list{
+    width: 100%;
+    display: flex;
+    gap: .5rem;
+  }
+}

@@ -1,0 +1,2 @@
+0000000000000000000000000000000000000000 3a555b28a5345beb40dc7d8200126131e5920d1f Paul Nassauer <paul.nassauer@datev.de> 1753442101 +0200	branch: Created from origin/codex/add-colored-logging-support
+3a555b28a5345beb40dc7d8200126131e5920d1f d494f39f5c457b42c7fc224bf83f41d4f0c1b962 Paul Nassauer <paul.nassauer@datev.de> 1753442291 +0200	commit: refactor: update logging to use WritableSignal for better state management

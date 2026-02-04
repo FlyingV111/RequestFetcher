@@ -1,0 +1,14 @@
+<section hlmCard class="response-chart">
+  <header hlmCardHeader>
+    <h1 hlmCardTitle>Response Time Analysis</h1>
+    <p hlmCardDescription>Showing of request</p>
+  </header>
+  <div class="chart-container">
+    @if (hasData()) {
+      <echarts [options]="chartsOptions()" class="chart"></echarts>
+    } @else {
+      <p class="text-muted-foreground">No data yet</p>
+    }
+  </div>
+</section>
+

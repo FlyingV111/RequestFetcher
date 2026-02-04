@@ -1,0 +1,24 @@
+<section hlmCard class="live-logs">
+  <header class="log-header">
+    <lucide-icon name="terminal" size="20"></lucide-icon>
+    <h2 hlmCardHeader>System Log</h2>
+  </header>
+
+  <div #scrollframe class="log-window log-text" [class.has-logs]="hasLogs()" hlmCardContent>
+    @if (hasLogs()) {
+    @for (entry of logs(); track $index; let last = $last) {
+        <div
+          [attr.data-last]="last ? true : null"
+          #logItem
+          [style.color]="entry.color ?? null"
+        >{{ entry.message }}</div>
+      }
+    }
+  </div>
+  @if (!hasLogs()) {
+    <div class="log-text text-muted-foreground" hlmCardContent>
+      <p>No logs yet</p>
+    </div>
+  }
+</section>
+

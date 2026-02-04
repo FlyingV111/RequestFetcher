@@ -1,0 +1,61 @@
+:host {
+  display: grid;
+  grid-template-columns: 24rem auto 24rem;
+  padding: 1rem;
+  gap: 1rem;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 5rem 60% auto;
+  gap: 1rem;
+  flex-direction: column;
+  overflow: hidden;
+
+  .info-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    min-height: fit-content;
+  }
+
+  response-chart {
+    flex: 1;
+  }
+}
+
+
+.info-container .info-card {
+  lucide-icon {
+    padding: .5rem;
+    background-color: var(--color-gray-100);
+    border-radius: .5rem;
+  }
+
+  font-size: 1.1rem;
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+
+.config-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
